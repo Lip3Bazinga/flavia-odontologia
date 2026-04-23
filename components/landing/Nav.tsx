@@ -27,8 +27,11 @@ export default function Nav() {
         alignItems: 'center',
         justifyContent: 'space-between',
         padding: '0 5%',
-        transition: 'all .4s',
-        background: scrolled ? 'rgba(255,255,255,.92)' : 'transparent',
+        transition: 'all .4s ease-in-out',
+        // MODIFICAÇÃO 1: Gradiente protetor no topo quando não estiver com scroll
+        background: scrolled
+          ? 'rgba(255,255,255,.92)'
+          : 'linear-gradient(to bottom, rgba(0,0,0,0.5) 0%, rgba(0,0,0,0) 100%)',
         backdropFilter: scrolled ? 'blur(20px)' : 'none',
         borderBottom: scrolled ? '1px solid #EBEBEB' : 'none',
       }}
@@ -41,20 +44,24 @@ export default function Nav() {
           letterSpacing: '.04em',
           color: scrolled ? '#1C1C1C' : '#FFFFFF',
           transition: 'color .4s',
+          // MODIFICAÇÃO 2: Sombra no texto para destacar da imagem
+          textShadow: scrolled ? 'none' : '0 2px 10px rgba(0,0,0,0.3)',
         }}
       >
         Flávia Jardim{' '}
-        <span style={{ color: 'var(--rose)', fontStyle: 'italic' }}>Odontologia</span>
+        <span style={{ color: 'var(--rose)', fontStyle: 'italic' }}>
+          Odontologia
+        </span>
       </div>
 
-      {/* Links — hidden on mobile when scrolled */}
+      {/* Links */}
       <ul
         style={{
           display: 'flex',
           gap: 38,
           listStyle: 'none',
         }}
-        className="nav-links-list"
+        className="nav-links-list hidden md:flex"
       >
         {[
           { href: '#antes-depois', label: 'Resultados' },
@@ -63,7 +70,7 @@ export default function Nav() {
           { href: '#tratamento', label: 'Tratamento' },
           { href: '#objecoes', label: 'Dúvidas' },
         ].map((link) => (
-          <li key={link.href} className="hidden md:block">
+          <li key={link.href}>
             <a
               href={link.href}
               style={{
@@ -72,19 +79,21 @@ export default function Nav() {
                 textTransform: 'uppercase',
                 fontWeight: 500,
                 color: scrolled ? '#2A2A2A' : '#FFFFFF',
-                transition: 'color .3s',
+                transition: 'all .3s',
                 textDecoration: 'none',
                 position: 'relative',
+                // MODIFICAÇÃO 3: Sombra nos links quando o fundo for a foto
+                textShadow: scrolled ? 'none' : '0 2px 8px rgba(0,0,0,0.4)',
               }}
               onMouseEnter={(e) =>
-                ((e.target as HTMLElement).style.color = scrolled
-                  ? '#C4808A'
-                  : '#FFFFFF')
+              ((e.target as HTMLElement).style.color = scrolled
+                ? '#C4808A'
+                : '#E0E0E0') // Feedback visual sutil no hover sobre a foto
               }
               onMouseLeave={(e) =>
-                ((e.target as HTMLElement).style.color = scrolled
-                  ? '#2A2A2A'
-                  : '#FFFFFF')
+              ((e.target as HTMLElement).style.color = scrolled
+                ? '#2A2A2A'
+                : '#FFFFFF')
               }
             >
               {link.label}
@@ -110,6 +119,8 @@ export default function Nav() {
           textDecoration: 'none',
           transition: 'all .3s',
           whiteSpace: 'nowrap',
+          // O botão já tem bom contraste, mas adicionar um box-shadow leve ajuda a integrá-lo no estado inicial
+          boxShadow: scrolled ? 'none' : '0 4px 12px rgba(0,0,0,0.15)',
         }}
         onMouseEnter={(e) => {
           const el = e.currentTarget as HTMLElement
@@ -119,7 +130,7 @@ export default function Nav() {
         onMouseLeave={(e) => {
           const el = e.currentTarget as HTMLElement
           el.style.background = 'var(--rose)'
-          el.style.boxShadow = 'none'
+          el.style.boxShadow = scrolled ? 'none' : '0 4px 12px rgba(0,0,0,0.15)'
         }}
       >
         Agendar Avaliação
