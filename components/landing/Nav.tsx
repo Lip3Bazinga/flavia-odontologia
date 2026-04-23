@@ -71,20 +71,20 @@ export default function Nav() {
                 letterSpacing: '.1em',
                 textTransform: 'uppercase',
                 fontWeight: 500,
-                color: scrolled ? '#6B6B6B' : 'rgba(255,255,255,.7)',
+                color: scrolled ? '#2A2A2A' : '#FFFFFF',
                 transition: 'color .3s',
                 textDecoration: 'none',
                 position: 'relative',
               }}
               onMouseEnter={(e) =>
                 ((e.target as HTMLElement).style.color = scrolled
-                  ? '#1C1C1C'
+                  ? '#C4808A'
                   : '#FFFFFF')
               }
               onMouseLeave={(e) =>
                 ((e.target as HTMLElement).style.color = scrolled
-                  ? '#6B6B6B'
-                  : 'rgba(255,255,255,.7)')
+                  ? '#2A2A2A'
+                  : '#FFFFFF')
               }
             >
               {link.label}
