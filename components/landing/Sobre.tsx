@@ -25,7 +25,7 @@ export default function Sobre() {
             }}
           >
             <img
-              src="/images/hero-doctor.jpg"
+              src="/images/flavia_2.jpeg"
               alt="Dra. Flávia Jardim - Especialista em Dentística e Estética Dental"
               style={{
                 width: '100%',
