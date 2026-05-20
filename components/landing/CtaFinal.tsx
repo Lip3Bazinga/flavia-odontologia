@@ -102,7 +102,7 @@ export default function CtaFinal() {
             marginBottom: 48,
           }}
         >
-          E tudo começa com uma decisão. Agende agora sua avaliação gratuita e descubra como as
+          E tudo começa com uma decisão. Agende agora sua avaliação e descubra como as
           lentes de resina podem transformar não só o seu sorriso, mas a sua confiança.
         </p>
 
@@ -154,7 +154,7 @@ export default function CtaFinal() {
             marginTop: 28,
           }}
         >
-          Avaliação 100% gratuita · Sem compromisso · Resultado previsível
+          Resultado previsível
         </p>
       </div>
     </section>

@@ -94,10 +94,10 @@ export default function Footer() {
             </h4>
             <ul style={{ listStyle: 'none', display: 'flex', flexDirection: 'column', gap: 9 }}>
               {[
-                { href: 'https://wa.me/5511999999999', label: '(11) 99999-9999' },
+                { href: 'https://wa.me/5516994046647', label: '(16) 99404-6647' },
                 { href: 'mailto:contato@flaviajardim.com.br', label: 'contato@flaviajardim.com.br' },
-                { href: '#', label: 'Rua das Flores, 123 — SP' },
-                { href: '#', label: 'Seg–Sex: 8h–19h · Sáb: 8h–13h' },
+                { href: 'https://maps.app.goo.gl/7AyEZDfQn2zWKXpk8', label: 'Av. São Vicente, 4315 - Jd. Noemia, Franca/SP' },
+                { href: '#', label: 'Seg–Sex: 7h–18h' },
               ].map((item) => (
                 <li key={item.label}>
                   <a

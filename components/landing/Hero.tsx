@@ -206,7 +206,7 @@ export default function Hero() {
       >
         {/* Background image */}
         <img
-          src="/images/hero-doctor.jpg"
+          src="/images/flavia.jpg"
           alt="Dra. Ana Clara - Especialista em Harmonização Facial"
           style={{
             position: 'absolute',
@@ -225,7 +225,7 @@ export default function Hero() {
             background: 'linear-gradient(to bottom, rgba(10,10,10,.1) 0%, rgba(10,10,10,.4) 100%)',
           }}
         />
-        
+
         {/* Decorative line */}
         <div
           style={{
