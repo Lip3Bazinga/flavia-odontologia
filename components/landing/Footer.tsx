@@ -63,7 +63,7 @@ export default function Footer() {
               Tratamentos
             </h4>
             <ul style={{ listStyle: 'none', display: 'flex', flexDirection: 'column', gap: 9 }}>
-              {['Lentes Estéticas', 'Clareamento', 'Ortodontia', 'Cirurgias', 'Implantes'].map((item) => (
+              {['Lentes Estéticas', 'Clareamento', 'Ortodontia', 'Cirurgias', 'Implantes', 'Endodontia', 'Limpeza', 'Restauração'].map((item) => (
                 <li key={item}>
                   <a
                     href="#"
