@@ -5,6 +5,8 @@ import { useEffect, useState } from 'react'
 const WA_LINK =
   'https://wa.me/5516994046647?text=Olá!%20Quero%20agendar%20minha%20avaliação.'
 
+const BREAKPOINT = 1024
+
 const NAV_LINKS = [
   { href: '#antes-depois', label: 'Resultados' },
   { href: '#consultorio', label: 'Consultório' },
@@ -16,6 +18,14 @@ const NAV_LINKS = [
 export default function Nav() {
   const [scrolled, setScrolled] = useState(false)
   const [menuOpen, setMenuOpen] = useState(false)
+  const [isDesktop, setIsDesktop] = useState(false)
+
+  useEffect(() => {
+    const checkWidth = () => setIsDesktop(window.innerWidth >= BREAKPOINT)
+    checkWidth()
+    window.addEventListener('resize', checkWidth)
+    return () => window.removeEventListener('resize', checkWidth)
+  }, [])
 
   useEffect(() => {
     const handler = () => setScrolled(window.scrollY > 60)
@@ -23,11 +33,15 @@ export default function Nav() {
     return () => window.removeEventListener('scroll', handler)
   }, [])
 
-  // Trava o scroll do body quando o menu está aberto
   useEffect(() => {
     document.body.style.overflow = menuOpen ? 'hidden' : ''
     return () => { document.body.style.overflow = '' }
   }, [menuOpen])
+
+  // Fecha o menu se a tela crescer para desktop
+  useEffect(() => {
+    if (isDesktop) setMenuOpen(false)
+  }, [isDesktop])
 
   const closeMenu = () => setMenuOpen(false)
 
@@ -70,126 +84,128 @@ export default function Nav() {
           </span>
         </div>
 
-        {/* Links + CTA agrupados à direita */}
-        <div className="hidden lg:flex" style={{ alignItems: 'center', gap: 38 }}>
-          <ul style={{ display: 'flex', gap: 38, listStyle: 'none', margin: 0, padding: 0 }}>
-            {NAV_LINKS.map((link) => (
-              <li key={link.href}>
-                <a
-                  href={link.href}
-                  style={{
-                    fontSize: '.72rem',
-                    letterSpacing: '.1em',
-                    textTransform: 'uppercase',
-                    fontWeight: 500,
-                    color: scrolled ? '#2A2A2A' : '#FFFFFF',
-                    transition: 'all .3s',
-                    textDecoration: 'none',
-                    textShadow: scrolled ? 'none' : '0 2px 8px rgba(0,0,0,0.4)',
-                  }}
-                  onMouseEnter={(e) =>
-                    ((e.target as HTMLElement).style.color = scrolled ? '#C4808A' : '#E0E0E0')
-                  }
-                  onMouseLeave={(e) =>
-                    ((e.target as HTMLElement).style.color = scrolled ? '#2A2A2A' : '#FFFFFF')
-                  }
-                >
-                  {link.label}
-                </a>
-              </li>
-            ))}
-          </ul>
+        {/* Links + CTA — desktop */}
+        {isDesktop && (
+          <div style={{ display: 'flex', alignItems: 'center', gap: 38 }}>
+            <ul style={{ display: 'flex', gap: 38, listStyle: 'none', margin: 0, padding: 0 }}>
+              {NAV_LINKS.map((link) => (
+                <li key={link.href}>
+                  <a
+                    href={link.href}
+                    style={{
+                      fontSize: '.72rem',
+                      letterSpacing: '.1em',
+                      textTransform: 'uppercase',
+                      fontWeight: 500,
+                      color: scrolled ? '#2A2A2A' : '#FFFFFF',
+                      transition: 'all .3s',
+                      textDecoration: 'none',
+                      textShadow: scrolled ? 'none' : '0 2px 8px rgba(0,0,0,0.4)',
+                    }}
+                    onMouseEnter={(e) =>
+                      ((e.target as HTMLElement).style.color = scrolled ? '#C4808A' : '#E0E0E0')
+                    }
+                    onMouseLeave={(e) =>
+                      ((e.target as HTMLElement).style.color = scrolled ? '#2A2A2A' : '#FFFFFF')
+                    }
+                  >
+                    {link.label}
+                  </a>
+                </li>
+              ))}
+            </ul>
 
-          <a
-            href={WA_LINK}
-            target="_blank"
-            rel="noopener noreferrer"
+            <a
+              href={WA_LINK}
+              target="_blank"
+              rel="noopener noreferrer"
+              style={{
+                fontSize: '.72rem',
+                letterSpacing: '.12em',
+                textTransform: 'uppercase',
+                fontWeight: 600,
+                padding: '11px 24px',
+                borderRadius: 3,
+                background: 'var(--rose)',
+                color: '#FFFFFF',
+                textDecoration: 'none',
+                transition: 'all .3s',
+                whiteSpace: 'nowrap',
+                boxShadow: scrolled ? 'none' : '0 4px 12px rgba(0,0,0,0.15)',
+              }}
+              onMouseEnter={(e) => {
+                const el = e.currentTarget as HTMLElement
+                el.style.background = 'var(--rose-dark)'
+                el.style.boxShadow = '0 6px 20px rgba(196,128,138,.4)'
+              }}
+              onMouseLeave={(e) => {
+                const el = e.currentTarget as HTMLElement
+                el.style.background = 'var(--rose)'
+                el.style.boxShadow = scrolled ? 'none' : '0 4px 12px rgba(0,0,0,0.15)'
+              }}
+            >
+              Agendar Avaliação
+            </a>
+          </div>
+        )}
+
+        {/* Hamburguer — mobile */}
+        {!isDesktop && (
+          <button
+            onClick={() => setMenuOpen((v) => !v)}
+            aria-label={menuOpen ? 'Fechar menu' : 'Abrir menu'}
             style={{
-              fontSize: '.72rem',
-              letterSpacing: '.12em',
-              textTransform: 'uppercase',
-              fontWeight: 600,
-              padding: '11px 24px',
-              borderRadius: 3,
-              background: 'var(--rose)',
-              color: '#FFFFFF',
-              textDecoration: 'none',
-              transition: 'all .3s',
-              whiteSpace: 'nowrap',
-              boxShadow: scrolled ? 'none' : '0 4px 12px rgba(0,0,0,0.15)',
-            }}
-            onMouseEnter={(e) => {
-              const el = e.currentTarget as HTMLElement
-              el.style.background = 'var(--rose-dark)'
-              el.style.boxShadow = '0 6px 20px rgba(196,128,138,.4)'
-            }}
-            onMouseLeave={(e) => {
-              const el = e.currentTarget as HTMLElement
-              el.style.background = 'var(--rose)'
-              el.style.boxShadow = scrolled ? 'none' : '0 4px 12px rgba(0,0,0,0.15)'
+              background: 'none',
+              border: 'none',
+              cursor: 'pointer',
+              padding: 8,
+              color: scrolled ? '#1C1C1C' : '#FFFFFF',
+              transition: 'color .4s',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
             }}
           >
-            Agendar Avaliação
-          </a>
-        </div>
+            <span style={{ position: 'relative', width: 24, height: 24, display: 'block' }}>
+              {/* Bars */}
+              <span
+                style={{
+                  position: 'absolute',
+                  inset: 0,
+                  display: 'flex',
+                  flexDirection: 'column',
+                  justifyContent: 'center',
+                  gap: 5,
+                  opacity: menuOpen ? 0 : 1,
+                  transform: menuOpen ? 'rotate(90deg) scale(.6)' : 'rotate(0deg) scale(1)',
+                  transition: 'opacity .25s ease, transform .3s ease',
+                }}
+              >
+                <span style={{ display: 'block', height: 2, borderRadius: 2, background: 'currentColor' }} />
+                <span style={{ display: 'block', height: 2, borderRadius: 2, background: 'currentColor', width: '75%' }} />
+                <span style={{ display: 'block', height: 2, borderRadius: 2, background: 'currentColor' }} />
+              </span>
 
-        {/* Botão hamburger — mobile (só aparece abaixo de lg) */}
-        <button
-          onClick={() => setMenuOpen((v) => !v)}
-          className="lg:hidden"
-          aria-label={menuOpen ? 'Fechar menu' : 'Abrir menu'}
-          style={{
-            background: 'none',
-            border: 'none',
-            cursor: 'pointer',
-            padding: 8,
-            color: scrolled ? '#1C1C1C' : '#FFFFFF',
-            transition: 'color .4s',
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'center',
-          }}
-        >
-          {/* Ícone com transição suave entre bars e X */}
-          <span style={{ position: 'relative', width: 24, height: 24, display: 'block' }}>
-            {/* Bars */}
-            <span
-              style={{
-                position: 'absolute',
-                inset: 0,
-                display: 'flex',
-                flexDirection: 'column',
-                justifyContent: 'center',
-                gap: 5,
-                opacity: menuOpen ? 0 : 1,
-                transform: menuOpen ? 'rotate(90deg) scale(.6)' : 'rotate(0deg) scale(1)',
-                transition: 'opacity .25s ease, transform .3s ease',
-              }}
-            >
-              <span style={{ display: 'block', height: 2, borderRadius: 2, background: 'currentColor' }} />
-              <span style={{ display: 'block', height: 2, borderRadius: 2, background: 'currentColor', width: '75%' }} />
-              <span style={{ display: 'block', height: 2, borderRadius: 2, background: 'currentColor' }} />
+              {/* X */}
+              <span
+                style={{
+                  position: 'absolute',
+                  inset: 0,
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  opacity: menuOpen ? 1 : 0,
+                  transform: menuOpen ? 'rotate(0deg) scale(1)' : 'rotate(-90deg) scale(.6)',
+                  transition: 'opacity .25s ease, transform .3s ease',
+                  fontSize: 22,
+                  lineHeight: 1,
+                }}
+              >
+                ✕
+              </span>
             </span>
-
-            {/* X */}
-            <span
-              style={{
-                position: 'absolute',
-                inset: 0,
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'center',
-                opacity: menuOpen ? 1 : 0,
-                transform: menuOpen ? 'rotate(0deg) scale(1)' : 'rotate(-90deg) scale(.6)',
-                transition: 'opacity .25s ease, transform .3s ease',
-                fontSize: 22,
-                lineHeight: 1,
-              }}
-            >
-              ✕
-            </span>
-          </span>
-        </button>
+          </button>
+        )}
       </nav>
 
       {/* Overlay escuro */}
@@ -261,7 +277,6 @@ export default function Nav() {
           ))}
         </ul>
 
-        {/* CTA dentro do drawer */}
         <a
           href={WA_LINK}
           target="_blank"

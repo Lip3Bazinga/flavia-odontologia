@@ -15,10 +15,10 @@ export default function WhatsAppFloat() {
       style={{
         position: 'fixed',
         bottom: 30,
-        right: 30,
+        right: 50,
         zIndex: 200,
         display: 'flex',
-        flexDirection: 'row-reverse',
+        // flexDirection: 'row-reverse',
         alignItems: 'center',
         gap: 12,
         animation: 'fadeUp .6s 2s both',
