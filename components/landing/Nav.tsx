@@ -70,76 +70,73 @@ export default function Nav() {
           </span>
         </div>
 
-        {/* Links — desktop */}
-        <ul
-          className="hidden md:flex"
-          style={{ gap: 38, listStyle: 'none' }}
-        >
-          {NAV_LINKS.map((link) => (
-            <li key={link.href}>
-              <a
-                href={link.href}
-                style={{
-                  fontSize: '.72rem',
-                  letterSpacing: '.1em',
-                  textTransform: 'uppercase',
-                  fontWeight: 500,
-                  color: scrolled ? '#2A2A2A' : '#FFFFFF',
-                  transition: 'all .3s',
-                  textDecoration: 'none',
-                  textShadow: scrolled ? 'none' : '0 2px 8px rgba(0,0,0,0.4)',
-                }}
-                onMouseEnter={(e) =>
-                  ((e.target as HTMLElement).style.color = scrolled ? '#C4808A' : '#E0E0E0')
-                }
-                onMouseLeave={(e) =>
-                  ((e.target as HTMLElement).style.color = scrolled ? '#2A2A2A' : '#FFFFFF')
-                }
-              >
-                {link.label}
-              </a>
-            </li>
-          ))}
-        </ul>
+        {/* Links + CTA agrupados à direita */}
+        <div className="hidden lg:flex" style={{ alignItems: 'center', gap: 38 }}>
+          <ul style={{ display: 'flex', gap: 38, listStyle: 'none', margin: 0, padding: 0 }}>
+            {NAV_LINKS.map((link) => (
+              <li key={link.href}>
+                <a
+                  href={link.href}
+                  style={{
+                    fontSize: '.72rem',
+                    letterSpacing: '.1em',
+                    textTransform: 'uppercase',
+                    fontWeight: 500,
+                    color: scrolled ? '#2A2A2A' : '#FFFFFF',
+                    transition: 'all .3s',
+                    textDecoration: 'none',
+                    textShadow: scrolled ? 'none' : '0 2px 8px rgba(0,0,0,0.4)',
+                  }}
+                  onMouseEnter={(e) =>
+                    ((e.target as HTMLElement).style.color = scrolled ? '#C4808A' : '#E0E0E0')
+                  }
+                  onMouseLeave={(e) =>
+                    ((e.target as HTMLElement).style.color = scrolled ? '#2A2A2A' : '#FFFFFF')
+                  }
+                >
+                  {link.label}
+                </a>
+              </li>
+            ))}
+          </ul>
 
-        {/* CTA — desktop */}
-        <a
-          href={WA_LINK}
-          target="_blank"
-          rel="noopener noreferrer"
-          className="hidden md:block"
-          style={{
-            fontSize: '.72rem',
-            letterSpacing: '.12em',
-            textTransform: 'uppercase',
-            fontWeight: 600,
-            padding: '11px 24px',
-            borderRadius: 3,
-            background: 'var(--rose)',
-            color: '#FFFFFF',
-            textDecoration: 'none',
-            transition: 'all .3s',
-            whiteSpace: 'nowrap',
-            boxShadow: scrolled ? 'none' : '0 4px 12px rgba(0,0,0,0.15)',
-          }}
-          onMouseEnter={(e) => {
-            const el = e.currentTarget as HTMLElement
-            el.style.background = 'var(--rose-dark)'
-            el.style.boxShadow = '0 6px 20px rgba(196,128,138,.4)'
-          }}
-          onMouseLeave={(e) => {
-            const el = e.currentTarget as HTMLElement
-            el.style.background = 'var(--rose)'
-            el.style.boxShadow = scrolled ? 'none' : '0 4px 12px rgba(0,0,0,0.15)'
-          }}
-        >
-          Agendar Avaliação
-        </a>
+          <a
+            href={WA_LINK}
+            target="_blank"
+            rel="noopener noreferrer"
+            style={{
+              fontSize: '.72rem',
+              letterSpacing: '.12em',
+              textTransform: 'uppercase',
+              fontWeight: 600,
+              padding: '11px 24px',
+              borderRadius: 3,
+              background: 'var(--rose)',
+              color: '#FFFFFF',
+              textDecoration: 'none',
+              transition: 'all .3s',
+              whiteSpace: 'nowrap',
+              boxShadow: scrolled ? 'none' : '0 4px 12px rgba(0,0,0,0.15)',
+            }}
+            onMouseEnter={(e) => {
+              const el = e.currentTarget as HTMLElement
+              el.style.background = 'var(--rose-dark)'
+              el.style.boxShadow = '0 6px 20px rgba(196,128,138,.4)'
+            }}
+            onMouseLeave={(e) => {
+              const el = e.currentTarget as HTMLElement
+              el.style.background = 'var(--rose)'
+              el.style.boxShadow = scrolled ? 'none' : '0 4px 12px rgba(0,0,0,0.15)'
+            }}
+          >
+            Agendar Avaliação
+          </a>
+        </div>
 
-        {/* Botão hamburger — mobile */}
+        {/* Botão hamburger — mobile (só aparece abaixo de lg) */}
         <button
           onClick={() => setMenuOpen((v) => !v)}
-          className="md:hidden"
+          className="lg:hidden"
           aria-label={menuOpen ? 'Fechar menu' : 'Abrir menu'}
           style={{
             background: 'none',
