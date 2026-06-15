@@ -1,8 +1,8 @@
 'use client'
 
 const steps = [
-  { num: '01', title: 'O que são', desc: 'Lentes de resina são facetas ultrafinas de material composto, moldadas e polimerizadas diretamente sobre o esmalte dental. São praticamente invisíveis ao olhar e ao toque.' },
-  { num: '02', title: 'Para quem é indicado', desc: 'Ideal para quem deseja corrigir manchas, diastemas (espaços), dentes lascados, desgastados ou levemente desalinhados, sem precisar de aparelho ou procedimentos mais invasivos.' },
+  { num: '01', title: 'O que são', desc: 'As lentes em resina são finas camadas de material estético aplicadas sobre a superfície dos dentes para melhorar formato, cor, tamanho e alinhamento do sorriso. Elas são confeccionadas diretamente nos dentes, de forma minimamente invasiva, preservando ao máximo a estrutura dental natural. Além de proporcionarem um resultado bonito e harmonioso, permitem personalizar cada sorriso de acordo com as características e desejos de cada paciente.' },
+  { num: '02', title: 'Para quem é indicado', desc: 'As lentes em resina são indicadas para pessoas que desejam melhorar a estética do sorriso de forma conservadora e natural. Elas podem ser uma ótima opção para corrigir dentes manchados, desgastados, com pequenas fraturas, desalinhamentos leves, diferenças de tamanho ou espaços entre os dentes. Cada caso deve ser avaliado individualmente para garantir que o tratamento seja a melhor escolha para as necessidades e expectativas do paciente.' },
   { num: '03', title: 'Como funciona', desc: 'Após uma avaliação detalhada, planejamos digitalmente o resultado final. A aplicação é feita em 1 ou 2 sessões, com anestesia tópica e resultado imediato e duradouro.' },
   { num: '04', title: 'Por que é diferente', desc: 'Ao contrário das porcelanas, as lentes de resina preservam o dente natural ao máximo, são reversíveis e permitem ajustes a qualquer momento — priorizando sua saúde bucal.' },
 ]
@@ -122,7 +122,7 @@ export default function Tratamento() {
 
         {/* Benefits */}
         <div
-          className="reveal d2"
+          className="reveal d2 benefits-grid"
           style={{
             background: 'var(--rose-light)',
             border: '1px solid var(--rose-mid)',

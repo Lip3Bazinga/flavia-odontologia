@@ -105,9 +105,9 @@ export default function Sobre() {
                 lineHeight: 1.1,
               }}
             >
-              Cuidando de sorrisos
+              Transformando sorrisos com
               <br />
-              <em style={{ fontStyle: 'italic', color: 'var(--rose-mid)' }}>há mais de 15 anos</em>
+              <em style={{ fontStyle: 'italic', color: 'var(--rose-mid)' }}>naturalidade há mais de 20 anos</em>
             </h2>
 
             <p
@@ -119,35 +119,31 @@ export default function Sobre() {
                 marginBottom: 28,
               }}
             >
-              com dedicação, técnica e humanidade
+              formada em 2002, dedicada à odontologia estética
             </p>
 
             <p style={{ fontSize: '.95rem', lineHeight: 1.9, color: 'rgba(255,255,255,.6)', fontWeight: 300, marginBottom: 20 }}>
               Sou dentista especializada em estética e saúde bucal, com foco em{' '}
               <strong style={{ color: 'rgba(255,255,255,.9)', fontWeight: 500 }}>
-                resultados naturais que respeitam a individualidade de cada paciente
+                resultados naturais que valorizam a individualidade de cada paciente
               </strong>
-              . Acredito que um sorriso bonito não precisa parecer &ldquo;feito&rdquo; — ele precisa parecer seu.
-            </p>
-            <p style={{ fontSize: '.95rem', lineHeight: 1.9, color: 'rgba(255,255,255,.6)', fontWeight: 300, marginBottom: 20 }}>
-              Ao longo dos anos, aprendi que{' '}
-              <strong style={{ color: 'rgba(255,255,255,.9)', fontWeight: 500 }}>
-                transformar um sorriso é também transformar a autoestima
-              </strong>
-              . Por isso, cada atendimento começa com escuta ativa: entendo seus medos, seus desejos e
-              só então planejamos juntos o melhor caminho.
+              . Acredito que um sorriso bonito não precisa parecer &ldquo;feito&rdquo; — ele precisa simplesmente parecer seu.
             </p>
             <p style={{ fontSize: '.95rem', lineHeight: 1.9, color: 'rgba(255,255,255,.6)', fontWeight: 300 }}>
-              Com formação contínua nos principais centros de odontologia estética do Brasil e do
-              exterior, ofereço técnicas avançadas em um ambiente{' '}
+              Ao longo dos anos, compreendi que{' '}
               <strong style={{ color: 'rgba(255,255,255,.9)', fontWeight: 500 }}>
-                acolhedor, seguro e premium
+                transformar um sorriso é também transformar a autoestima
+              </strong>{' '}
+              e a forma como cada pessoa se relaciona com o mundo. Por isso, cada atendimento começa com uma escuta atenta: entendo seus medos, expectativas e desejos para, juntos, planejarmos um tratamento que respeite sua essência e entregue um resultado{' '}
+              <strong style={{ color: 'rgba(255,255,255,.9)', fontWeight: 500 }}>
+                leve, natural e autêntico
               </strong>
               .
             </p>
 
             {/* Stats */}
             <div
+              className="sobre-stats"
               style={{
                 display: 'flex',
                 gap: 36,
@@ -158,7 +154,7 @@ export default function Sobre() {
             >
               {[
                 { num: '+2.000', label: 'Pacientes atendidos' },
-                { num: '15+', label: 'Anos de prática' },
+                { num: '20+', label: 'Anos de prática' },
                 { num: '4', label: 'Especializações' },
               ].map((s) => (
                 <div key={s.label}>

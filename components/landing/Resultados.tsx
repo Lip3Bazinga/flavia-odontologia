@@ -8,28 +8,28 @@ const cases = [
     num: '01',
     tag: 'Estética Dental',
     name: 'Lentes de Resina',
-    desc: 'Finas películas de resina aplicadas com mínimo desgaste para corrigir cor, formato e alinhamento. Resultado natural em 2 sessões.',
+    desc: 'Mais do que transformar dentes, transformamos a confiança de sorrir. Resultados naturais, personalizados e pensados para valorizar a beleza única de cada paciente.',
     stats: [{ n: '2', l: 'Sessões' }, { n: '8+', l: 'Anos de duração' }, { n: '100%', l: 'Natural' }],
-    beforeImg: '/images/case-1-before.jpg',
-    afterImg: '/images/case-1-after.jpg',
+    beforeImg: '/images/antes_1.jpeg',
+    afterImg: '/images/depois_1.jpeg',
   },
   {
     num: '02',
-    tag: 'Clareamento',
-    name: 'Clareamento a Laser',
-    desc: 'Procedimento rápido, seguro e indolor. O gel clareador ativado por luz LED transforma o sorriso em uma única sessão.',
-    stats: [{ n: '1', l: 'Sessão' }, { n: '8 tons', l: 'Mais claro' }, { n: '2–3a', l: 'Duração' }],
-    beforeImg: '/images/case-2-before.jpg',
-    afterImg: '/images/case-2-after.jpg',
+    tag: 'Estética Dental',
+    name: 'Lentes de Resina',
+    desc: 'Cada sorriso conta uma história. Nosso objetivo é realçar sua melhor versão com harmonia, naturalidade e excelência nos detalhes.',
+    stats: [{ n: '2', l: 'Sessões' }, { n: '8+', l: 'Anos de duração' }, { n: '100%', l: 'Natural' }],
+    beforeImg: '/images/antes_2.jpeg',
+    afterImg: '/images/depois_2.jpeg',
   },
   {
     num: '03',
-    tag: 'Ortodontia',
-    name: 'Alinhadores Invisíveis',
-    desc: 'Tecnologia de alinhamento 3D sem bráquetes. Discreto, removível e com resultado planejado digitalmente desde a primeira consulta.',
-    stats: [{ n: '~20', l: 'Etapas' }, { n: '6–18m', l: 'Tratamento' }, { n: '100%', l: 'Discreto' }],
-    beforeImg: '/images/case-3-before.jpg',
-    afterImg: '/images/case-3-after.jpg',
+    tag: 'Estética Dental',
+    name: 'Lentes de Resina',
+    desc: 'Antes e depois que vão além da estética: sorrisos planejados para unir beleza, função e naturalidade em cada detalhe.',
+    stats: [{ n: '2', l: 'Sessões' }, { n: '8+', l: 'Anos de duração' }, { n: '100%', l: 'Natural' }],
+    beforeImg: '/images/antes_3.jpeg',
+    afterImg: '/images/depois_3.jpeg',
   },
 ]
 
@@ -301,7 +301,7 @@ export default function Resultados() {
                 ))}
               </div>
               <a
-                href={`https://wa.me/5511999999999?text=Quero+saber+mais+sobre+${encodeURIComponent(c.name)}`}
+                href={`https://wa.me/5516994046647?text=Quero+saber+mais+sobre+${encodeURIComponent(c.name)}`}
                 target="_blank"
                 rel="noopener noreferrer"
                 style={{ display: 'inline-flex', alignItems: 'center', gap: 8, fontSize: '.72rem', letterSpacing: '.1em', textTransform: 'uppercase', fontWeight: 600, color: 'var(--rose-mid)', border: '1px solid rgba(196,128,138,.22)', padding: '11px 22px', borderRadius: 3, cursor: 'pointer', transition: 'all .3s', background: 'transparent', textDecoration: 'none' }}

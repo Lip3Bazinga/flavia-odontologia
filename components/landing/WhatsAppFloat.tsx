@@ -4,13 +4,14 @@ import { useState } from 'react'
 import { WhatsAppIcon } from './icons'
 
 const WA_LINK =
-  'https://wa.me/5511999999999?text=Olá!%20Quero%20agendar%20minha%20avaliação.'
+  'https://wa.me/5516994046647?text=Olá!%20Quero%20agendar%20minha%20avaliação.'
 
 export default function WhatsAppFloat() {
   const [hovered, setHovered] = useState(false)
 
   return (
     <div
+      id="wa-float"
       style={{
         position: 'fixed',
         bottom: 30,

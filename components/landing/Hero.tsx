@@ -3,7 +3,7 @@
 import { WhatsAppIcon } from './icons'
 
 const WA_LINK =
-  'https://wa.me/5511999999999?text=Olá!%20Gostaria%20de%20agendar%20minha%20avaliação%20gratuita.'
+  'https://wa.me/5516994046647?text=Olá!%20Gostaria%20de%20agendar%20minha%20avaliação%20gratuita.'
 
 export default function Hero() {
   return (

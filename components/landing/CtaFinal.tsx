@@ -3,7 +3,7 @@
 import { WhatsAppIcon } from './icons'
 
 const WA_LINK =
-  'https://wa.me/5511999999999?text=Olá!%20Quero%20transformar%20meu%20sorriso.%20Pode%20me%20ajudar?'
+  'https://wa.me/5516994046647?text=Olá!%20Quero%20transformar%20meu%20sorriso.%20Pode%20me%20ajudar?'
 
 export default function CtaFinal() {
   return (

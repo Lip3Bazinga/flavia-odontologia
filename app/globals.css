@@ -92,6 +92,18 @@ html {
   to   { opacity: 1; transform: none; }
 }
 
+/* Pointer cursor for all interactive elements */
+a,
+button,
+[role="button"],
+[type="button"],
+[type="submit"],
+[type="reset"],
+label[for],
+select {
+  cursor: pointer;
+}
+
 /* Responsive overrides */
 @media (max-width: 900px) {
   .hero-left {
@@ -111,5 +123,68 @@ html {
   .footer-top-grid {
     grid-template-columns: 1fr !important;
     gap: 36px !important;
+  }
+}
+
+/* ── Mobile (≤ 640px) ─────────────────────────────────── */
+@media (max-width: 640px) {
+  /* Hero: single column, smaller padding */
+  #hero {
+    grid-template-columns: 1fr !important;
+    min-height: auto !important;
+  }
+  .hero-left {
+    padding: 100px 6% 60px !important;
+  }
+
+  /* Sobre: reduce section padding */
+  #sobre {
+    padding: 72px 0 !important;
+  }
+
+  /* Tratamento: single column steps */
+  .steps-grid {
+    grid-template-columns: 1fr !important;
+  }
+  /* Benefits: single column */
+  .benefits-grid {
+    grid-template-columns: 1fr !important;
+    padding: 32px !important;
+    gap: 24px !important;
+  }
+
+  /* Resultados: tighten info panel padding */
+  .rc-case-info {
+    padding: 36px 28px !important;
+  }
+
+  /* CtaFinal padding */
+  #cta-final {
+    padding: 80px 0 !important;
+  }
+
+  /* Footer bottom: stack vertically */
+  .footer-bottom {
+    flex-direction: column !important;
+    align-items: flex-start !important;
+    gap: 16px !important;
+  }
+
+  /* General section breathing room */
+  #tratamento,
+  #antes-depois {
+    padding: 72px 0 !important;
+  }
+
+  /* WhatsApp float: smaller on mobile */
+  #wa-float {
+    bottom: 20px !important;
+    right: 16px !important;
+  }
+
+  /* Stats row in Sobre: allow wrap */
+  .sobre-stats {
+    flex-wrap: wrap !important;
+    gap: 24px !important;
   }
 }

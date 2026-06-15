@@ -44,7 +44,7 @@ export default function Footer() {
               }}
             >
               Especialista em estética dental e lentes de resina. Transformando sorrisos com
-              naturalidade, técnica e dedicação há mais de 15 anos.
+              naturalidade, técnica e dedicação há mais de 20 anos.
             </p>
           </div>
 
@@ -63,7 +63,7 @@ export default function Footer() {
               Tratamentos
             </h4>
             <ul style={{ listStyle: 'none', display: 'flex', flexDirection: 'column', gap: 9 }}>
-              {['Lentes de Resina', 'Clareamento Dental', 'Invisalign', 'Harmonização Facial', 'Implantes'].map((item) => (
+              {['Lentes Estéticas', 'Clareamento', 'Ortodontia', 'Cirurgias', 'Implantes'].map((item) => (
                 <li key={item}>
                   <a
                     href="#"
@@ -116,6 +116,7 @@ export default function Footer() {
 
         {/* Bottom */}
         <div
+          className="footer-bottom"
           style={{
             display: 'flex',
             justifyContent: 'space-between',
@@ -131,7 +132,7 @@ export default function Footer() {
             {[
               { href: '#', label: 'Instagram', abbr: 'IG' },
               { href: '#', label: 'Facebook', abbr: 'FB' },
-              { href: 'https://wa.me/5511999999999', label: 'WhatsApp', abbr: 'WA' },
+              { href: 'https://wa.me/5516994046647', label: 'WhatsApp', abbr: 'WA' },
             ].map((s) => (
               <a
                 key={s.abbr}
