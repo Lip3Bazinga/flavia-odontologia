@@ -1,337 +1,263 @@
 'use client'
 
-import { useEffect, useRef, useState, useCallback } from 'react'
+const tall = {
+  image: '/images/local_5.jpeg',
+  title: 'Tecnologia &amp; <em>cuidado</em>',
+  text: 'Cadeiras ergonômicas, telas de monitoramento e equipamentos de última geração para diagnósticos precisos e tratamentos ágeis.',
+}
 
-const rooms = [
+const grid = [
   {
-    tag: 'Nosso Espaço · 01',
+    image: '/images/local_1.jpeg',
     title: 'Acolhimento desde a <em>entrada</em>',
     text: 'Ambiente pensado para que você se sinta à vontade antes mesmo de começar o atendimento. Iluminação suave, aromas e música ambiente.',
-    image: '/images/clinic-1.jpg',
   },
   {
-    tag: 'Nosso Espaço · 02',
-    title: 'Tecnologia &amp; <em>conforto</em>',
-    text: 'Cadeiras ergonômicas, telas de monitoramento e equipamentos de última geração para diagnósticos precisos e tratamentos ágeis.',
-    image: '/images/clinic-2.jpg',
+    image: '/images/local_2.jpeg',
+    title: 'Conforto para sua <em>espera</em>',
+    text: 'Espaço reservado e tranquilo para seu descanso, com privacidade e todo o conforto que você merece.',
   },
   {
-    tag: 'Nosso Espaço · 03',
-    title: 'Planejamento <em>digital</em> do sorriso',
-    text: 'Scanner 3D intraoral e software de simulação para você visualizar o resultado final antes de qualquer procedimento começar.',
-    image: '/images/clinic-3.jpg',
-  },
-  {
-    tag: 'Nosso Espaço · 04',
-    title: 'Biossegurança <em>total</em>',
-    text: 'Sala de esterilização com autoclave de última geração. Protocolos rigorosos e materiais certificados para sua total segurança.',
-    image: '/images/clinic-4.jpg',
-  },
-  {
-    tag: 'Nosso Espaço · 05',
-    title: 'Sala de <em>recuperação</em>',
-    text: 'Espaço reservado e tranquilo para seu descanso após os procedimentos, com privacidade e todo o conforto que você merece.',
-    image: '/images/clinic-5.jpg',
-  },
-  {
-    tag: 'Nosso Espaço · 06',
-    title: 'Localização <em>privilegiada</em>',
+    image: '/images/local_3.jpeg',
+    title: 'Recepção com <em>identidade</em>',
     text: 'Fácil acesso, estacionamento conveniado e atendimento com hora marcada para que sua visita seja sempre prática e agradável.',
-    image: '/images/clinic-6.jpg',
+  },
+  {
+    image: '/images/local_4.jpeg',
+    title: 'Ambientes pensados para <em>você</em>',
+    text: 'Scanner 3D intraoral e software de simulação para você visualizar o resultado final antes de qualquer procedimento começar.',
   },
 ]
 
-const COUNT = rooms.length
+const emStyle = (s: string) =>
+  s.replace(/<em>/g, '<em style="font-style:italic;color:var(--rose-mid)">')
+
+function Tile({
+  image,
+  title,
+  text,
+  style,
+  feature,
+}: {
+  image: string
+  title: string
+  text?: string
+  style?: React.CSSProperties
+  feature?: boolean
+}) {
+  return (
+    <div
+      className="consultorio-tile"
+      style={{
+        position: 'relative',
+        overflow: 'hidden',
+        borderRadius: 12,
+        minHeight: 0,
+        ...style,
+      }}
+    >
+      <img
+        src={image}
+        alt=""
+        style={{
+          width: '100%',
+          height: '100%',
+          objectFit: 'cover',
+          display: 'block',
+        }}
+      />
+      <div
+        style={{
+          position: 'absolute',
+          inset: 0,
+          background:
+            'linear-gradient(to top, rgba(0,0,0,.78) 0%, rgba(0,0,0,.18) 55%, rgba(0,0,0,0) 100%)',
+        }}
+      />
+      {/* Overlay extra revelado no hover (apenas metade inferior) para legibilidade do texto */}
+      <div
+        className="consultorio-overlay"
+        style={{
+          position: 'absolute',
+          left: 0,
+          right: 0,
+          bottom: 0,
+          height: '50%',
+          background:
+            'linear-gradient(to top, rgba(0,0,0,.7) 0%, rgba(0,0,0,.3) 100%)',
+        }}
+      />
+      <div
+        className="consultorio-content"
+        style={{
+          position: 'absolute',
+          left: 0,
+          right: 0,
+          bottom: 0,
+          padding: '24px 26px',
+          zIndex: 1,
+        }}
+      >
+        <h3
+          className="consultorio-title"
+          style={{
+            fontFamily: 'var(--font-serif)',
+            fontSize: feature ? 'clamp(1.5rem,2.4vw,2.1rem)' : 'clamp(1.1rem,1.6vw,1.4rem)',
+            fontWeight: 300,
+            color: 'var(--white)',
+            lineHeight: 1.15,
+            marginBottom: 10,
+          }}
+          dangerouslySetInnerHTML={{ __html: emStyle(title) }}
+        />
+        {text && (
+          <p
+            className="consultorio-text"
+            style={{
+              fontSize: feature ? '.85rem' : '.78rem',
+              color: 'rgba(255,255,255,.6)',
+              lineHeight: 1.65,
+              fontWeight: 300,
+              maxWidth: 360,
+            }}
+          >
+            {text}
+          </p>
+        )}
+      </div>
+    </div>
+  )
+}
 
 export default function Consultorio() {
-  const [active, setActive] = useState(0)
-  const [exiting, setExiting] = useState<number | null>(null)
-  const [exitDir, setExitDir] = useState(1)
-  const sectionRef = useRef<HTMLElement>(null)
-
-  const goSlide = useCallback(
-    (to: number) => {
-      if (to === active) return
-      const direction = to > active ? 1 : -1
-      setExitDir(direction)
-      setExiting(active)
-      setActive(to)
-      setTimeout(() => setExiting(null), 700)
-    },
-    [active]
-  )
-
-  useEffect(() => {
-    const handler = () => {
-      const section = sectionRef.current
-      if (!section) return
-      const sTop = section.offsetTop
-      const sHeight = section.offsetHeight
-      const vH = window.innerHeight
-      const scrolled = window.scrollY - sTop
-      const scrollable = sHeight - vH
-      const progress = Math.max(0, Math.min(1, scrolled / scrollable))
-      const idx = Math.min(COUNT - 1, Math.floor(progress * COUNT))
-      goSlide(idx)
-    }
-    window.addEventListener('scroll', handler, { passive: true })
-    return () => window.removeEventListener('scroll', handler)
-  }, [goSlide])
-
-  const progressWidth = ((active + 1) / COUNT) * 100
-
   return (
     <section
       id="consultorio"
-      ref={sectionRef}
-      style={{
-        position: 'relative',
-        height: `calc(100vh + ${5 * 90}vh)`,
-        background: 'var(--dark)',
-      }}
+      style={{ background: 'var(--dark)', padding: '110px 0' }}
     >
-      <div
-        style={{
-          position: 'sticky',
-          top: 0,
-          height: '100vh',
-          overflow: 'hidden',
-          background: 'var(--dark)',
-        }}
-      >
-        {/* Slides */}
-        <div style={{ position: 'absolute', inset: 0 }}>
-          {rooms.map((room, i) => {
-            const isActive = i === active
-            const isExiting = i === exiting
-
-            let transform = 'translateX(80px)'
-            let opacity = 0
-            let pointerEvents: 'none' | 'auto' = 'none'
-            let transition = 'opacity .65s cubic-bezier(.16,1,.3,1), transform .65s cubic-bezier(.16,1,.3,1)'
-
-            if (isActive) {
-              transform = 'none'
-              opacity = 1
-              pointerEvents = 'auto'
-            } else if (isExiting) {
-              transform = `translateX(${exitDir > 0 ? -80 : 80}px)`
-              opacity = 0
-            }
-
-            return (
-              <div
-                key={i}
-                style={{
-                  position: 'absolute',
-                  inset: 0,
-                  display: 'flex',
-                  alignItems: 'flex-end',
-                  opacity,
-                  pointerEvents,
-                  transform,
-                  transition,
-                  willChange: 'transform, opacity',
-                }}
-              >
-                {/* BG */}
-                <div
-                  style={{
-                    position: 'absolute',
-                    inset: 0,
-                    overflow: 'hidden',
-                  }}
-                >
-                  <img
-                    src={room.image}
-                    alt={room.tag}
-                    style={{
-                      width: '100%',
-                      height: '100%',
-                      objectFit: 'cover',
-                      transition: 'transform 8s ease',
-                      transform: isActive ? 'scale(1.04)' : 'scale(1)',
-                    }}
-                  />
-                  <div
-                    style={{
-                      position: 'absolute',
-                      inset: 0,
-                      background: `linear-gradient(to top, rgba(0,0,0,.85) 0%, rgba(0,0,0,.3) 50%, rgba(0,0,0,.1) 100%)`,
-                      zIndex: 1,
-                    }}
-                  />
-                </div>
-
-                {/* Content */}
-                <div
-                  style={{
-                    position: 'relative',
-                    zIndex: 2,
-                    padding: '0 7% 7%',
-                    display: 'grid',
-                    gridTemplateColumns: '1fr 1fr',
-                    gap: 60,
-                    alignItems: 'end',
-                    width: '100%',
-                  }}
-                >
-                  <div>
-                    <span
-                      style={{
-                        fontSize: '.65rem',
-                        letterSpacing: '.18em',
-                        textTransform: 'uppercase',
-                        color: 'var(--rose-mid)',
-                        display: 'block',
-                        marginBottom: 12,
-                      }}
-                    >
-                      {room.tag}
-                    </span>
-                    <h2
-                      style={{
-                        fontFamily: 'var(--font-serif)',
-                        fontSize: 'clamp(2rem,4vw,3.4rem)',
-                        fontWeight: 300,
-                        color: 'var(--white)',
-                        lineHeight: 1.1,
-                        marginBottom: 16,
-                      }}
-                      dangerouslySetInnerHTML={{ __html: room.title.replace(/<em>/g, '<em style="font-style:italic;color:var(--rose-mid)">') }}
-                    />
-                    <p
-                      style={{
-                        fontSize: '.9rem',
-                        color: 'rgba(255,255,255,.5)',
-                        lineHeight: 1.8,
-                        fontWeight: 300,
-                        maxWidth: 420,
-                      }}
-                    >
-                      {room.text}
-                    </p>
-                  </div>
-                  <div style={{ textAlign: 'right' }}>
-                    <span
-                      style={{
-                        fontFamily: 'var(--font-serif)',
-                        fontSize: '7rem',
-                        fontWeight: 300,
-                        color: 'rgba(255,255,255,.06)',
-                        lineHeight: 1,
-                        display: 'block',
-                        marginBottom: -20,
-                      }}
-                    >
-                      0{i + 1}
-                    </span>
-                    <span
-                      style={{
-                        fontSize: '.65rem',
-                        letterSpacing: '.16em',
-                        textTransform: 'uppercase',
-                        color: 'rgba(255,255,255,.25)',
-                      }}
-                    >
-                      de 0{COUNT}
-                    </span>
-                  </div>
-                </div>
-              </div>
-            )
-          })}
-        </div>
-
-        {/* Progress bar */}
-        <div
-          style={{
-            position: 'absolute',
-            bottom: 0,
-            left: 0,
-            right: 0,
-            height: 3,
-            background: 'rgba(255,255,255,.07)',
-            zIndex: 3,
-          }}
-        >
-          <div
+      <div style={{ maxWidth: 1240, margin: '0 auto', padding: '0 5%' }}>
+        {/* Header */}
+        <div style={{ marginBottom: 48, maxWidth: 620 }}>
+          <span
+            className="reveal"
             style={{
-              height: '100%',
-              background: 'linear-gradient(to right, var(--rose), var(--rose-mid))',
-              transition: 'width .65s cubic-bezier(.16,1,.3,1)',
-              width: `${progressWidth}%`,
+              display: 'inline-flex',
+              alignItems: 'center',
+              gap: 10,
+              fontSize: '.68rem',
+              letterSpacing: '.18em',
+              textTransform: 'uppercase',
+              color: 'var(--rose-mid)',
+              fontWeight: 500,
             }}
-          />
+          >
+            <span style={{ display: 'block', width: 28, height: 1, background: 'var(--rose-mid)' }} />
+            Nosso Espaço
+          </span>
+          <h2
+            className="reveal d1"
+            style={{
+              fontFamily: 'var(--font-serif)',
+              fontWeight: 300,
+              fontSize: 'clamp(2.2rem, 4vw, 3.6rem)',
+              lineHeight: 1.1,
+              color: 'var(--white)',
+              marginTop: 16,
+            }}
+          >
+            Um ambiente pensado para{' '}
+            <em style={{ fontStyle: 'italic', color: 'var(--rose-mid)' }}>você</em>
+          </h2>
         </div>
 
-        {/* Dots */}
-        <div
-          style={{
-            position: 'absolute',
-            bottom: 28,
-            left: '50%',
-            transform: 'translateX(-50%)',
-            zIndex: 5,
-            display: 'flex',
-            gap: 10,
-            alignItems: 'center',
-          }}
-        >
-          {rooms.map((_, i) => (
-            <button
-              key={i}
-              aria-label={`Ir para slide ${i + 1}`}
-              onClick={() => goSlide(i)}
-              style={{
-                width: i === active ? 24 : 6,
-                height: 6,
-                borderRadius: i === active ? 3 : '50%',
-                background: i === active ? 'var(--rose)' : 'rgba(255,255,255,.2)',
-                border: 'none',
-                cursor: 'pointer',
-                padding: 0,
-                transition: 'all .35s',
-              }}
+        {/* Mosaic: tall image (~30%) on the left, 2x2 grid on the right */}
+        <div className="consultorio-mosaic">
+          <Tile
+            image={tall.image}
+            title={tall.title}
+            text={tall.text}
+            feature
+            style={{ gridArea: 'tall' }}
+          />
+          {grid.map((room, i) => (
+            <Tile
+              key={room.image}
+              image={room.image}
+              title={room.title}
+              text={room.text}
+              style={{ gridArea: `g${i + 1}` }}
             />
           ))}
         </div>
-
-        {/* Scroll cue */}
-        <div
-          style={{
-            position: 'absolute',
-            right: '6%',
-            top: '50%',
-            transform: 'translateY(-50%)',
-            zIndex: 4,
-            display: 'flex',
-            flexDirection: 'column',
-            alignItems: 'center',
-            gap: 8,
-          }}
-        >
-          <div
-            style={{
-              width: 1,
-              height: 60,
-              background: 'linear-gradient(to bottom, transparent, var(--rose-mid), transparent)',
-              animation: 'scrollCue 2s ease-in-out infinite',
-            }}
-          />
-          <span
-            style={{
-              fontSize: '.6rem',
-              letterSpacing: '.14em',
-              textTransform: 'uppercase',
-              color: 'rgba(255,255,255,.2)',
-              writingMode: 'vertical-rl',
-            }}
-          >
-            scroll
-          </span>
-        </div>
       </div>
+
+      <style>{`
+        .consultorio-mosaic {
+          display: grid;
+          gap: 16px;
+          grid-template-columns: 30% 1fr 1fr;
+          grid-template-rows: 1fr 1fr;
+          grid-template-areas:
+            'tall g1 g2'
+            'tall g3 g4';
+          height: 78vh;
+          min-height: 560px;
+        }
+        .consultorio-tile {
+          transform: perspective(900px) rotateX(0) rotateY(0) translateY(0);
+          box-shadow: 0 0 0 rgba(0,0,0,0);
+          transition: transform .5s cubic-bezier(.16,1,.3,1), box-shadow .5s cubic-bezier(.16,1,.3,1);
+          will-change: transform;
+          transform-style: preserve-3d;
+        }
+        .consultorio-tile:hover {
+          transform: perspective(900px) rotateX(4deg) rotateY(-5deg) translateY(-8px);
+          box-shadow: 0 24px 50px -12px rgba(196,128,138,.55);
+          z-index: 2;
+        }
+        .consultorio-overlay {
+          opacity: 0;
+          transition: opacity .5s cubic-bezier(.16,1,.3,1);
+          pointer-events: none;
+        }
+        .consultorio-tile:hover .consultorio-overlay {
+          opacity: 1;
+        }
+        /* Mantém o texto nítido durante a rotação 3D e melhora o anti-aliasing */
+        .consultorio-content {
+          transform: translateZ(0.01px);
+          backface-visibility: hidden;
+          -webkit-font-smoothing: antialiased;
+          text-rendering: optimizeLegibility;
+        }
+        .consultorio-title,
+        .consultorio-text {
+          transition: color .5s cubic-bezier(.16,1,.3,1);
+        }
+        .consultorio-tile:hover .consultorio-title,
+        .consultorio-tile:hover .consultorio-title em,
+        .consultorio-tile:hover .consultorio-text {
+          color: #FFF !important;
+        }
+        @media (max-width: 768px) {
+          .consultorio-mosaic {
+            grid-template-columns: 1fr 1fr;
+            grid-template-rows: auto;
+            grid-template-areas:
+              'tall tall'
+              'g1 g2'
+              'g3 g4';
+            height: auto;
+            min-height: 0;
+          }
+          .consultorio-mosaic > .consultorio-tile {
+            min-height: 240px;
+          }
+          .consultorio-mosaic > .consultorio-tile:first-child {
+            min-height: 480px;
+          }
+        }
+      `}</style>
     </section>
   )
 }
