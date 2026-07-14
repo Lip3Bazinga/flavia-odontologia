@@ -8,6 +8,7 @@ import Sobre from '@/components/landing/Sobre'
 import Tratamento from '@/components/landing/Tratamento'
 import Diferenciais from '@/components/landing/Diferenciais'
 import Objecoes from '@/components/landing/Objecoes'
+import Localizacao from '@/components/landing/Localizacao'
 import CtaFinal from '@/components/landing/CtaFinal'
 import Footer from '@/components/landing/Footer'
 import WhatsAppFloat from '@/components/landing/WhatsAppFloat'
@@ -28,6 +29,7 @@ export default function Page() {
         <Tratamento />
         <Diferenciais />
         <Objecoes />
+        <Localizacao />
         <CtaFinal />
       </main>
       <Footer />

@@ -1,5 +1,13 @@
 'use client'
 
+import { InstagramIcon, FacebookIcon, WhatsAppIcon } from './icons'
+
+const socials = [
+  { href: 'https://instagram.com/', label: 'Instagram', Icon: InstagramIcon },
+  { href: 'https://facebook.com/', label: 'Facebook', Icon: FacebookIcon },
+  { href: 'https://wa.me/5516994046647', label: 'WhatsApp', Icon: WhatsAppIcon },
+]
+
 export default function Footer() {
   return (
     <footer
@@ -129,15 +137,14 @@ export default function Footer() {
             © 2025 Flávia Jardim Odontologia · CRO-SP 00000 · Todos os direitos reservados
           </p>
           <div style={{ display: 'flex', gap: 12 }}>
-            {[
-              { href: '#', label: 'Instagram', abbr: 'IG' },
-              { href: '#', label: 'Facebook', abbr: 'FB' },
-              { href: 'https://wa.me/5516994046647', label: 'WhatsApp', abbr: 'WA' },
-            ].map((s) => (
+            {socials.map((s) => (
               <a
-                key={s.abbr}
+                key={s.label}
                 href={s.href}
                 title={s.label}
+                aria-label={s.label}
+                target="_blank"
+                rel="noopener noreferrer"
                 style={{
                   width: 34,
                   height: 34,
@@ -146,7 +153,6 @@ export default function Footer() {
                   display: 'flex',
                   alignItems: 'center',
                   justifyContent: 'center',
-                  fontSize: '.7rem',
                   color: 'rgba(255,255,255,.3)',
                   textDecoration: 'none',
                   transition: 'all .3s',
@@ -162,7 +168,7 @@ export default function Footer() {
                   el.style.color = 'rgba(255,255,255,.3)'
                 }}
               >
-                {s.abbr}
+                <s.Icon size={16} />
               </a>
             ))}
           </div>

@@ -1,6 +1,14 @@
 'use client'
 
-import { StarIcon } from './icons'
+import { useState } from 'react'
+import { StarIcon, ChevronLeftIcon, ChevronRightIcon } from './icons'
+
+// Vídeos de depoimentos. Troque `src` pelos vídeos reais (embed do YouTube/Vimeo ou arquivo em /public/videos).
+const videoTestimonials = [
+  { src: 'https://www.youtube.com/embed/fCGiE6TDW60', name: 'Mariana Costa', treat: 'Lentes de Resina' },
+  { src: 'https://www.youtube.com/embed/qcvTkf_KC8s', name: 'Letícia Torres', treat: 'Lentes + Clareamento' },
+  { src: 'https://www.youtube.com/embed/fdmxZinzB6I', name: 'Beatriz Alves', treat: 'Planejamento Digital' },
+]
 
 const testimonials = [
   { text: 'Fiz as lentes de resina com a Dra. Flávia e o resultado é simplesmente incrível. Natural, bonito e exatamente o que eu queria. Parece que sempre foram meus dentes.', name: 'Mariana Costa', treat: 'Lentes de Resina', initials: 'MC' },
@@ -16,6 +24,10 @@ const testimonials = [
 const all = [...testimonials, ...testimonials]
 
 export default function Depoimentos() {
+  const [current, setCurrent] = useState(0)
+  const total = videoTestimonials.length
+  const go = (dir: number) => setCurrent((c) => (c + dir + total) % total)
+
   return (
     <section
       id="depoimentos"
@@ -54,6 +66,91 @@ export default function Depoimentos() {
             O que dizem nossos{' '}
             <em style={{ fontStyle: 'italic', color: 'var(--rose)' }}>pacientes</em>
           </h2>
+        </div>
+
+        {/* Video slider */}
+        <div className="reveal d2" style={{ maxWidth: 760, margin: '0 auto 80px', position: 'relative' }}>
+          <div
+            style={{
+              position: 'relative',
+              borderRadius: 12,
+              overflow: 'hidden',
+              border: '1px solid var(--rose-mid)',
+              boxShadow: '0 24px 60px -20px rgba(196,128,138,.45)',
+              aspectRatio: '16 / 9',
+              background: '#000',
+            }}
+          >
+            <iframe
+              key={current}
+              src={videoTestimonials[current].src}
+              title={`Depoimento em vídeo — ${videoTestimonials[current].name}`}
+              style={{ width: '100%', height: '100%', border: 0, display: 'block' }}
+              loading="lazy"
+              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+              allowFullScreen
+            />
+          </div>
+
+          {/* Caption + arrows */}
+          <div
+            style={{
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'space-between',
+              gap: 16,
+              marginTop: 20,
+            }}
+          >
+            <button
+              type="button"
+              aria-label="Depoimento anterior"
+              onClick={() => go(-1)}
+              className="depo-video-arrow"
+            >
+              <ChevronLeftIcon size={20} />
+            </button>
+
+            <div style={{ textAlign: 'center' }}>
+              <div style={{ fontSize: '.95rem', fontWeight: 600, color: 'var(--dark)' }}>
+                {videoTestimonials[current].name}
+              </div>
+              <div style={{ fontSize: '.73rem', color: 'var(--rose)', letterSpacing: '.06em', marginTop: 2 }}>
+                {videoTestimonials[current].treat}
+              </div>
+            </div>
+
+            <button
+              type="button"
+              aria-label="Próximo depoimento"
+              onClick={() => go(1)}
+              className="depo-video-arrow"
+            >
+              <ChevronRightIcon size={20} />
+            </button>
+          </div>
+
+          {/* Dots */}
+          <div style={{ display: 'flex', justifyContent: 'center', gap: 8, marginTop: 18 }}>
+            {videoTestimonials.map((_, i) => (
+              <button
+                key={i}
+                type="button"
+                aria-label={`Ir para o depoimento ${i + 1}`}
+                onClick={() => setCurrent(i)}
+                style={{
+                  width: i === current ? 24 : 8,
+                  height: 8,
+                  padding: 0,
+                  border: 'none',
+                  borderRadius: 4,
+                  cursor: 'pointer',
+                  background: i === current ? 'var(--rose)' : 'var(--rose-mid)',
+                  transition: 'all .3s',
+                }}
+              />
+            ))}
+          </div>
         </div>
       </div>
 
@@ -171,6 +268,30 @@ export default function Depoimentos() {
           ))}
         </div>
       </div>
+
+      <style>{`
+        .depo-video-arrow {
+          flex-shrink: 0;
+          width: 46px;
+          height: 46px;
+          border-radius: 50%;
+          border: 1px solid var(--rose-mid);
+          background: var(--white);
+          color: var(--rose);
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          cursor: pointer;
+          transition: all .3s;
+        }
+        .depo-video-arrow:hover {
+          background: var(--rose);
+          border-color: var(--rose);
+          color: #FFFFFF;
+          transform: translateY(-2px);
+          box-shadow: 0 10px 24px rgba(196,128,138,.35);
+        }
+      `}</style>
     </section>
   )
 }
