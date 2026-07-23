@@ -1,32 +1,18 @@
 'use client'
 
 import { useState } from 'react'
-import { StarIcon, ChevronLeftIcon, ChevronRightIcon } from './icons'
+import { PlayIcon } from './icons'
 
-// Vídeos de depoimentos. Troque `src` pelos vídeos reais (embed do YouTube/Vimeo ou arquivo em /public/videos).
+// Vídeos de depoimentos (YouTube Shorts — formato vertical 9:16).
 const videoTestimonials = [
-  { src: 'https://www.youtube.com/embed/fCGiE6TDW60', name: 'Mariana Costa', treat: 'Lentes de Resina' },
-  { src: 'https://www.youtube.com/embed/qcvTkf_KC8s', name: 'Letícia Torres', treat: 'Lentes + Clareamento' },
-  { src: 'https://www.youtube.com/embed/fdmxZinzB6I', name: 'Beatriz Alves', treat: 'Planejamento Digital' },
+  { id: 'fCGiE6TDW60', name: 'Mariana Costa', treat: 'Lentes de Resina' },
+  { id: 'qcvTkf_KC8s', name: 'Letícia Torres', treat: 'Lentes + Clareamento' },
+  { id: 'fdmxZinzB6I', name: 'Beatriz Alves', treat: 'Planejamento Digital' },
 ]
-
-const testimonials = [
-  { text: 'Fiz as lentes de resina com a Dra. Flávia e o resultado é simplesmente incrível. Natural, bonito e exatamente o que eu queria. Parece que sempre foram meus dentes.', name: 'Mariana Costa', treat: 'Lentes de Resina', initials: 'MC' },
-  { text: 'Tinha muito medo de dentista, mas a Dra. Flávia me deixou completamente à vontade desde o primeiro momento. O procedimento foi sem dor e o resultado superou tudo que eu esperava.', name: 'Letícia Torres', treat: 'Lentes + Clareamento', initials: 'LT' },
-  { text: 'Fiz o planejamento digital e amei poder ver o resultado antes mesmo de começar. O sorriso ficou natural, sem aquele aspecto exagerado. Me sinto muito mais confiante.', name: 'Beatriz Alves', treat: 'Lentes de Resina', initials: 'BA' },
-  { text: 'Profissional incrível, ambiente super aconchegante e resultado impecável. Já indiquei para toda a família. É raríssimo encontrar uma dentista tão dedicada.', name: 'Paula Fernandes', treat: 'Estética Dental', initials: 'PF' },
-  { text: 'O que mais me surpreendeu foi a naturalidade do resultado. Não parece "feito". Vários amigos me perguntam se fiz alguma coisa e quando conto ficam chocados.', name: 'Renata Souza', treat: 'Lentes de Resina', initials: 'RS' },
-  { text: 'Atendimento humanizado de verdade. A Dra. Flávia ouviu tudo que eu queria e entregou além. Cada detalhe foi pensado para combinar com meu rosto e minha personalidade.', name: 'Amanda Lima', treat: 'Planejamento Estético', initials: 'AL' },
-  { text: 'Me arrependo de ter esperado tanto tempo. A avaliação é gratuita, o ambiente é lindo, e o resultado é transformador. Valeu cada centavo do investimento.', name: 'Gabriela Nunes', treat: 'Lentes de Resina', initials: 'GN' },
-  { text: 'Sempre tive vergonha de sorrir nas fotos. Depois das lentes da Dra. Flávia, mostro o sorriso em tudo quanto é foto. Mudou minha vida de verdade.', name: 'Caroline Matos', treat: 'Lentes de Resina', initials: 'CM' },
-]
-
-const all = [...testimonials, ...testimonials]
 
 export default function Depoimentos() {
-  const [current, setCurrent] = useState(0)
-  const total = videoTestimonials.length
-  const go = (dir: number) => setCurrent((c) => (c + dir + total) % total)
+  // Índices dos vídeos que já foram ativados (iframe carregado com autoplay)
+  const [playing, setPlaying] = useState<number | null>(null)
 
   return (
     <section
@@ -34,7 +20,7 @@ export default function Depoimentos() {
       style={{ padding: '110px 0', background: 'var(--rose-pale)', overflow: 'hidden' }}
     >
       <div style={{ maxWidth: 1140, margin: '0 auto', padding: '0 5%' }}>
-        <div style={{ textAlign: 'center', marginBottom: 64 }}>
+        <div style={{ textAlign: 'center', marginBottom: 56 }}>
           <span
             className="reveal"
             style={{
@@ -66,203 +52,65 @@ export default function Depoimentos() {
             O que dizem nossos{' '}
             <em style={{ fontStyle: 'italic', color: 'var(--rose)' }}>pacientes</em>
           </h2>
-        </div>
-
-        {/* Video slider */}
-        <div className="reveal d2" style={{ maxWidth: 760, margin: '0 auto 80px', position: 'relative' }}>
-          <div
+          <p
+            className="reveal d2"
             style={{
-              position: 'relative',
-              borderRadius: 12,
-              overflow: 'hidden',
-              border: '1px solid var(--rose-mid)',
-              boxShadow: '0 24px 60px -20px rgba(196,128,138,.45)',
-              aspectRatio: '16 / 9',
-              background: '#000',
+              fontFamily: 'var(--font-sans)',
+              fontSize: '.95rem',
+              lineHeight: 1.7,
+              color: 'var(--charcoal)',
+              maxWidth: 520,
+              margin: '18px auto 0',
             }}
           >
-            <iframe
-              key={current}
-              src={videoTestimonials[current].src}
-              title={`Depoimento em vídeo — ${videoTestimonials[current].name}`}
-              style={{ width: '100%', height: '100%', border: 0, display: 'block' }}
-              loading="lazy"
-              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-              allowFullScreen
-            />
-          </div>
-
-          {/* Caption + arrows */}
-          <div
-            style={{
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'space-between',
-              gap: 16,
-              marginTop: 20,
-            }}
-          >
-            <button
-              type="button"
-              aria-label="Depoimento anterior"
-              onClick={() => go(-1)}
-              className="depo-video-arrow"
-            >
-              <ChevronLeftIcon size={20} />
-            </button>
-
-            <div style={{ textAlign: 'center' }}>
-              <div style={{ fontSize: '.95rem', fontWeight: 600, color: 'var(--dark)' }}>
-                {videoTestimonials[current].name}
-              </div>
-              <div style={{ fontSize: '.73rem', color: 'var(--rose)', letterSpacing: '.06em', marginTop: 2 }}>
-                {videoTestimonials[current].treat}
-              </div>
-            </div>
-
-            <button
-              type="button"
-              aria-label="Próximo depoimento"
-              onClick={() => go(1)}
-              className="depo-video-arrow"
-            >
-              <ChevronRightIcon size={20} />
-            </button>
-          </div>
-
-          {/* Dots */}
-          <div style={{ display: 'flex', justifyContent: 'center', gap: 8, marginTop: 18 }}>
-            {videoTestimonials.map((_, i) => (
-              <button
-                key={i}
-                type="button"
-                aria-label={`Ir para o depoimento ${i + 1}`}
-                onClick={() => setCurrent(i)}
-                style={{
-                  width: i === current ? 24 : 8,
-                  height: 8,
-                  padding: 0,
-                  border: 'none',
-                  borderRadius: 4,
-                  cursor: 'pointer',
-                  background: i === current ? 'var(--rose)' : 'var(--rose-mid)',
-                  transition: 'all .3s',
-                }}
-              />
-            ))}
-          </div>
+            Histórias reais de quem transformou o sorriso — e a confiança — com a Dra. Flávia.
+          </p>
         </div>
-      </div>
 
-      {/* Scrolling track */}
-      <div style={{ position: 'relative' }}>
-        {/* Fade edges */}
-        <div
-          style={{
-            position: 'absolute',
-            top: 0,
-            bottom: 0,
-            left: 0,
-            width: 100,
-            background: 'linear-gradient(to right, var(--rose-pale), transparent)',
-            zIndex: 5,
-            pointerEvents: 'none',
-          }}
-        />
-        <div
-          style={{
-            position: 'absolute',
-            top: 0,
-            bottom: 0,
-            right: 0,
-            width: 100,
-            background: 'linear-gradient(to left, var(--rose-pale), transparent)',
-            zIndex: 5,
-            pointerEvents: 'none',
-          }}
-        />
-
-        <div
-          className="reveal d2"
-          style={{
-            display: 'flex',
-            gap: 24,
-            animation: 'slideLeft 32s linear infinite',
-            width: 'max-content',
-          }}
-          onMouseEnter={(e) => {
-            ;(e.currentTarget as HTMLElement).style.animationPlayState = 'paused'
-          }}
-          onMouseLeave={(e) => {
-            ;(e.currentTarget as HTMLElement).style.animationPlayState = 'running'
-          }}
-        >
-          {all.map((t, i) => (
-            <div
-              key={i}
-              style={{
-                width: 330,
-                flexShrink: 0,
-                padding: '34px 30px',
-                borderRadius: 8,
-                background: 'var(--rose-pale)',
-                border: '1px solid var(--rose-mid)',
-                position: 'relative',
-              }}
-            >
-              <div
-                style={{
-                  fontFamily: 'var(--font-serif)',
-                  fontSize: '4rem',
-                  color: 'var(--rose-mid)',
-                  lineHeight: 1,
-                  position: 'absolute',
-                  top: 16,
-                  right: 22,
-                  pointerEvents: 'none',
-                }}
-              >
-                &ldquo;
-              </div>
-              <div style={{ color: 'var(--rose)', fontSize: '.8rem', letterSpacing: 2, marginBottom: 14 }}>
-                ★★★★★
-              </div>
-              <p
-                style={{
-                  fontSize: '.9rem',
-                  lineHeight: 1.8,
-                  color: 'var(--charcoal)',
-                  fontStyle: 'italic',
-                  fontFamily: 'var(--font-serif)',
-                  fontWeight: 400,
-                  marginBottom: 22,
-                }}
-              >
-                &ldquo;{t.text}&rdquo;
-              </p>
-              <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
-                <div
-                  style={{
-                    width: 42,
-                    height: 42,
-                    borderRadius: '50%',
-                    background: 'var(--rose-mid)',
-                    display: 'flex',
-                    alignItems: 'center',
-                    justifyContent: 'center',
-                    fontFamily: 'var(--font-serif)',
-                    fontSize: '1.1rem',
-                    color: 'var(--rose-dark)',
-                    fontWeight: 600,
-                    flexShrink: 0,
-                  }}
-                >
-                  {t.initials}
-                </div>
-                <div>
-                  <div style={{ fontSize: '.85rem', fontWeight: 600, color: 'var(--dark)' }}>{t.name}</div>
-                  <div style={{ fontSize: '.73rem', color: 'var(--rose)', letterSpacing: '.06em', marginTop: 2 }}>{t.treat}</div>
-                </div>
+        {/* Grade de vídeos verticais (carrossel com snap no mobile) */}
+        <div className="reveal d2 depo-video-grid">
+          {videoTestimonials.map((v, i) => (
+            <div key={v.id} className="depo-video-card">
+              <div className="depo-video-frame">
+                {playing === i ? (
+                  <iframe
+                    src={`https://www.youtube.com/embed/${v.id}?autoplay=1&rel=0&playsinline=1`}
+                    title={`Depoimento em vídeo — ${v.name}`}
+                    style={{ width: '100%', height: '100%', border: 0, display: 'block' }}
+                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                    allowFullScreen
+                  />
+                ) : (
+                  <button
+                    type="button"
+                    className="depo-video-poster"
+                    aria-label={`Assistir depoimento de ${v.name}`}
+                    onClick={() => setPlaying(i)}
+                  >
+                    {/* Thumbnail do YouTube (carregamento leve, sem iframe) */}
+                    <img
+                      src={`https://i.ytimg.com/vi/${v.id}/oar2.jpg`}
+                      alt=""
+                      loading="lazy"
+                      onError={(e) => {
+                        // Fallback para thumbnail padrão caso a vertical não exista
+                        const img = e.currentTarget
+                        if (!img.dataset.fallback) {
+                          img.dataset.fallback = '1'
+                          img.src = `https://i.ytimg.com/vi/${v.id}/hqdefault.jpg`
+                        }
+                      }}
+                    />
+                    <span className="depo-video-scrim" aria-hidden="true" />
+                    <span className="depo-video-play" aria-hidden="true">
+                      <PlayIcon size={22} />
+                    </span>
+                    <span className="depo-video-caption">
+                      <span className="depo-video-name">{v.name}</span>
+                      <span className="depo-video-treat">{v.treat}</span>
+                    </span>
+                  </button>
+                )}
               </div>
             </div>
           ))}
@@ -270,26 +118,126 @@ export default function Depoimentos() {
       </div>
 
       <style>{`
-        .depo-video-arrow {
-          flex-shrink: 0;
-          width: 46px;
-          height: 46px;
-          border-radius: 50%;
+        .depo-video-grid {
+          display: grid;
+          grid-template-columns: repeat(3, minmax(0, 1fr));
+          gap: 28px;
+          max-width: 880px;
+          margin: 0 auto;
+        }
+        .depo-video-card {
+          margin: 0;
+        }
+        .depo-video-frame {
+          position: relative;
+          aspect-ratio: 9 / 16;
+          border-radius: 16px;
+          overflow: hidden;
+          background: #000;
           border: 1px solid var(--rose-mid);
-          background: var(--white);
+          box-shadow: 0 24px 60px -24px rgba(196,128,138,.45);
+          transition: transform .35s ease, box-shadow .35s ease;
+        }
+        .depo-video-card:hover .depo-video-frame {
+          transform: translateY(-6px);
+          box-shadow: 0 32px 70px -22px rgba(196,128,138,.6);
+        }
+        .depo-video-poster {
+          position: absolute;
+          inset: 0;
+          width: 100%;
+          height: 100%;
+          padding: 0;
+          border: 0;
+          background: #000;
+          cursor: pointer;
+          display: block;
+        }
+        .depo-video-poster img {
+          position: absolute;
+          inset: 0;
+          width: 100%;
+          height: 100%;
+          object-fit: cover;
+          transition: transform .5s ease;
+        }
+        .depo-video-card:hover .depo-video-poster img {
+          transform: scale(1.04);
+        }
+        .depo-video-scrim {
+          position: absolute;
+          inset: 0;
+          background: linear-gradient(to top, rgba(0,0,0,.72) 0%, rgba(0,0,0,.12) 45%, rgba(0,0,0,0) 65%);
+          pointer-events: none;
+        }
+        .depo-video-play {
+          position: absolute;
+          top: 50%;
+          left: 50%;
+          transform: translate(-50%, -50%);
+          width: 62px;
+          height: 62px;
+          border-radius: 50%;
+          background: rgba(255,255,255,.92);
           color: var(--rose);
           display: flex;
           align-items: center;
           justify-content: center;
-          cursor: pointer;
-          transition: all .3s;
+          padding-left: 4px;
+          box-shadow: 0 10px 30px rgba(0,0,0,.35);
+          transition: transform .3s ease, background .3s ease, color .3s ease;
         }
-        .depo-video-arrow:hover {
+        .depo-video-card:hover .depo-video-play {
+          transform: translate(-50%, -50%) scale(1.1);
           background: var(--rose);
-          border-color: var(--rose);
           color: #FFFFFF;
-          transform: translateY(-2px);
-          box-shadow: 0 10px 24px rgba(196,128,138,.35);
+        }
+        .depo-video-caption {
+          position: absolute;
+          left: 0;
+          right: 0;
+          bottom: 0;
+          padding: 18px 18px 16px;
+          text-align: left;
+          display: flex;
+          flex-direction: column;
+          gap: 3px;
+          pointer-events: none;
+        }
+        .depo-video-name {
+          font-family: var(--font-sans);
+          font-size: .92rem;
+          font-weight: 600;
+          color: #FFFFFF;
+        }
+        .depo-video-treat {
+          font-family: var(--font-sans);
+          font-size: .7rem;
+          letter-spacing: .08em;
+          text-transform: uppercase;
+          color: rgba(255,255,255,.85);
+        }
+
+        /* Mobile: carrossel horizontal com snap */
+        @media (max-width: 720px) {
+          .depo-video-grid {
+            display: flex;
+            gap: 16px;
+            overflow-x: auto;
+            scroll-snap-type: x mandatory;
+            padding: 4px 5% 24px;
+            margin: 0 -5%;
+            max-width: none;
+            -webkit-overflow-scrolling: touch;
+            scrollbar-width: none;
+          }
+          .depo-video-grid::-webkit-scrollbar {
+            display: none;
+          }
+          .depo-video-card {
+            flex: 0 0 min(72vw, 300px);
+            scroll-snap-align: center;
+          }
         }
       `}</style>
     </section>

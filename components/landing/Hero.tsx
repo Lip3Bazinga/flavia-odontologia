@@ -207,7 +207,7 @@ export default function Hero() {
         {/* Background image */}
         <img
           src="/images/flavia.jpg"
-          alt="Dra. Ana Clara - Especialista em Harmonização Facial"
+          alt="Dra. Flávia Jardim, especialista em lentes de resina e estética dental em Franca/SP"
           style={{
             position: 'absolute',
             inset: 0,

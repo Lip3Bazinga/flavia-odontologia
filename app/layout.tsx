@@ -15,7 +15,11 @@ const raleway = Raleway({
   variable: '--font-sans',
 })
 
+const siteUrl = 'https://flaviajardim.com.br'
+const ogImage = '/images/og-image.jpg' // TODO: gerar imagem 1200x630 em public/images/og-image.jpg
+
 export const metadata: Metadata = {
+  metadataBase: new URL(siteUrl),
   title: 'Dra. Flávia Jardim — Lentes de Resina | Estética Dental em Franca/SP',
   description:
     'Especialista em lentes de resina e estética dental há mais de 20 anos. Transformando sorrisos com naturalidade, técnica e dedicação em Franca/SP. Agende sua avaliação: (16) 99404-6647.',
@@ -30,16 +34,42 @@ export const metadata: Metadata = {
     'ortodontia Franca',
   ],
   authors: [{ name: 'Dra. Flávia Jardim' }],
+  alternates: {
+    canonical: '/',
+  },
   openGraph: {
     title: 'Dra. Flávia Jardim — Lentes de Resina | Estética Dental em Franca/SP',
     description:
       'Transformando sorrisos com naturalidade há mais de 20 anos. Especialista em lentes de resina em Franca/SP.',
+    url: siteUrl,
+    siteName: 'Dra. Flávia Jardim — Estética Dental',
     type: 'website',
     locale: 'pt_BR',
+    images: [
+      {
+        url: ogImage,
+        width: 1200,
+        height: 630,
+        alt: 'Dra. Flávia Jardim — Lentes de Resina e Estética Dental em Franca/SP',
+      },
+    ],
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title: 'Dra. Flávia Jardim — Lentes de Resina | Estética Dental em Franca/SP',
+    description:
+      'Transformando sorrisos com naturalidade há mais de 20 anos. Especialista em lentes de resina em Franca/SP.',
+    images: [ogImage],
   },
   robots: {
     index: true,
     follow: true,
+    googleBot: {
+      index: true,
+      follow: true,
+      'max-image-preview': 'large',
+      'max-snippet': -1,
+    },
   },
 }
 

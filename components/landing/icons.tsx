@@ -93,3 +93,11 @@ export function StarIcon({ size = 16 }: { size?: number }) {
     </svg>
   )
 }
+
+export function PlayIcon({ size = 20 }: { size?: number }) {
+  return (
+    <svg width={size} height={size} viewBox="0 0 24 24" fill="currentColor">
+      <path d="M8 5v14l11-7L8 5z" />
+    </svg>
+  )
+}

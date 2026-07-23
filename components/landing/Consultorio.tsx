@@ -58,7 +58,7 @@ function Tile({
     >
       <img
         src={image}
-        alt=""
+        alt={title}
         style={{
           width: '100%',
           height: '100%',

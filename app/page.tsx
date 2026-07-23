@@ -13,10 +13,12 @@ import CtaFinal from '@/components/landing/CtaFinal'
 import Footer from '@/components/landing/Footer'
 import WhatsAppFloat from '@/components/landing/WhatsAppFloat'
 import RevealObserver from '@/components/landing/RevealObserver'
+import JsonLd from '@/components/landing/JsonLd'
 
 export default function Page() {
   return (
     <>
+      <JsonLd />
       <RevealObserver />
       <Nav />
       <main>

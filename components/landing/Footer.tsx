@@ -1,10 +1,9 @@
 'use client'
 
-import { InstagramIcon, FacebookIcon, WhatsAppIcon } from './icons'
+import { InstagramIcon, WhatsAppIcon } from './icons'
 
 const socials = [
-  { href: 'https://instagram.com/', label: 'Instagram', Icon: InstagramIcon },
-  { href: 'https://facebook.com/', label: 'Facebook', Icon: FacebookIcon },
+  { href: 'https://www.instagram.com/sorrindoporflaviajardim/', label: 'Instagram', Icon: InstagramIcon },
   { href: 'https://wa.me/5516994046647', label: 'WhatsApp', Icon: WhatsAppIcon },
 ]
 
