@@ -188,6 +188,14 @@ select {
   cursor: pointer;
 }
 
+/* Enquanto o banner de consentimento está aberto ele ocupa a faixa de baixo da
+   tela, onde o botão flutuante do WhatsApp mora. No mobile os dois se
+   sobrepõem. `display: none` precisa de !important porque o #wa-float roda uma
+   animação com `fill-mode: both`, e keyframe vence declaração normal. */
+body:has(#banner-consentimento) #wa-float {
+  display: none !important;
+}
+
 /* Responsive overrides */
 @media (max-width: 900px) {
   .hero-left {

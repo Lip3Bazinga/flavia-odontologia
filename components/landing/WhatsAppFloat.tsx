@@ -18,21 +18,18 @@ export default function WhatsAppFloat() {
         right: 50,
         zIndex: 200,
         display: 'flex',
-        // flexDirection: 'row-reverse',
         alignItems: 'center',
         gap: 12,
         animation: 'fadeUp .6s 2s both',
+        // O tooltip continua ocupando espaço no flex mesmo invisível, então a
+        // caixa deste container é bem mais larga que o botão. Sem isto ela
+        // captura o mouse por cima do rodapé e bloqueia os links de lá.
+        // Só o botão volta a receber eventos.
+        pointerEvents: 'none',
       }}
-      onMouseEnter={() => setHovered(true)}
-      onMouseLeave={() => setHovered(false)}
     >
-      {/* Tip */}
-      <div
-        style={{
-          display: 'none',
-        }}
-      />
       <span
+        aria-hidden={!hovered}
         style={{
           background: 'var(--dark)',
           color: 'var(--white)',
@@ -55,7 +52,12 @@ export default function WhatsAppFloat() {
         href={WA_LINK}
         target="_blank"
         rel="noopener noreferrer"
+        onMouseEnter={() => setHovered(true)}
+        onMouseLeave={() => setHovered(false)}
+        onFocus={() => setHovered(true)}
+        onBlur={() => setHovered(false)}
         style={{
+          pointerEvents: 'auto',
           width: 56,
           height: 56,
           borderRadius: '50%',

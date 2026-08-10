@@ -1,0 +1,118 @@
+# Site estático (Next.js `output: export`) servido pelo Apache da com4.
+# Este arquivo fica em public/ e o build o copia para out/ — sobe junto.
+
+# ---------------------------------------------------------------------------
+# Compressão
+# ---------------------------------------------------------------------------
+# WebP, JPEG e PNG já são formatos comprimidos: recomprimir só gasta CPU.
+# O ganho real está em HTML, CSS, JS, SVG e JSON.
+<IfModule mod_deflate.c>
+  AddOutputFilterByType DEFLATE text/html text/plain text/css text/xml
+  AddOutputFilterByType DEFLATE application/javascript application/x-javascript
+  AddOutputFilterByType DEFLATE application/json application/xml
+  AddOutputFilterByType DEFLATE image/svg+xml
+  AddOutputFilterByType DEFLATE font/ttf font/otf
+</IfModule>
+
+<IfModule mod_brotli.c>
+  AddOutputFilterByType BROTLI_COMPRESS text/html text/plain text/css text/xml
+  AddOutputFilterByType BROTLI_COMPRESS application/javascript application/x-javascript
+  AddOutputFilterByType BROTLI_COMPRESS application/json application/xml
+  AddOutputFilterByType BROTLI_COMPRESS image/svg+xml
+</IfModule>
+
+# ---------------------------------------------------------------------------
+# Cache
+# ---------------------------------------------------------------------------
+<IfModule mod_expires.c>
+  ExpiresActive On
+
+  # Os assets em /_next/static/ têm hash no nome: mudou o conteúdo, mudou a
+  # URL. Podem ser cacheados de forma imutável.
+  <FilesMatch "\.(js|css|woff2?)$">
+    ExpiresDefault "access plus 1 year"
+    Header set Cache-Control "public, max-age=31536000, immutable"
+  </FilesMatch>
+
+  # Imagens não têm hash no nome — cache mais curto, para que uma troca de
+  # foto apareça sem precisar esperar um ano.
+  <FilesMatch "\.(webp|jpe?g|png|svg|ico)$">
+    ExpiresDefault "access plus 30 days"
+    Header set Cache-Control "public, max-age=2592000"
+  </FilesMatch>
+
+  # O HTML nunca é cacheado: é o que aponta para os assets com hash novo.
+  <FilesMatch "\.html$">
+    ExpiresDefault "access plus 0 seconds"
+    Header set Cache-Control "public, max-age=0, must-revalidate"
+  </FilesMatch>
+</IfModule>
+
+# ---------------------------------------------------------------------------
+# MIME types
+# ---------------------------------------------------------------------------
+# Apache antigo pode não conhecer WebP — sem isso o navegador recebe
+# application/octet-stream e não renderiza a imagem.
+<IfModule mod_mime.c>
+  AddType image/webp .webp
+  AddType image/svg+xml .svg
+  AddType font/woff2 .woff2
+  AddType application/manifest+json .webmanifest
+</IfModule>
+
+# ---------------------------------------------------------------------------
+# Cabeçalhos de segurança
+# ---------------------------------------------------------------------------
+<IfModule mod_headers.c>
+  Header always set X-Content-Type-Options "nosniff"
+  Header always set Referrer-Policy "strict-origin-when-cross-origin"
+  Header always set X-Frame-Options "SAMEORIGIN"
+  Header always set Permissions-Policy "geolocation=(), microphone=(), camera=()"
+</IfModule>
+
+# ---------------------------------------------------------------------------
+# URLs e redirecionamentos
+# ---------------------------------------------------------------------------
+<IfModule mod_rewrite.c>
+  RewriteEngine On
+
+  # Força HTTPS. A com4 já entrega certificado Let's Encrypt.
+  RewriteCond %{HTTPS} off
+  RewriteCond %{HTTP:X-Forwarded-Proto} !https
+  RewriteRule ^(.*)$ https://%{HTTP_HOST}/$1 [R=301,L]
+
+  # Domínio canônico SEM www., para bater com o <link rel="canonical">, o
+  # sitemap.xml e o JSON-LD — todos usam https://flaviajardim.com.br.
+  RewriteCond %{HTTP_HOST} ^www\.flaviajardim\.com\.br$ [NC]
+  RewriteRule ^(.*)$ https://flaviajardim.com.br/$1 [R=301,L]
+
+  # URLs sem extensão.
+  # O `output: export` do Next gera cada rota como um .html solto na raiz —
+  # /politica-de-privacidade existe em disco como politica-de-privacidade.html.
+  # O Apache não faz esse mapeamento sozinho, então sem esta regra a URL limpa
+  # devolve 404.
+  #
+  # Cuidado com o `!-d`: o Next gera TAMBÉM um diretório de mesmo nome, com os
+  # payloads RSC (__next.*.txt) dentro. Com `!-d` a regra não dispararia para
+  # /politica-de-privacidade, o mod_dir redirecionaria para a versão com barra
+  # e, sem index.html lá dentro, o `Options -Indexes` responderia 403.
+  # Por isso a condição testa apenas `!-f`: se o .html existe, ele ganha do
+  # diretório homônimo. A última condição garante que só reescrevemos quando o
+  # arquivo existe mesmo; o resto segue para o 404 normal.
+  RewriteCond %{REQUEST_FILENAME} !-f
+  RewriteCond %{DOCUMENT_ROOT}/$1.html -f
+  RewriteRule ^(.+?)/?$ /$1.html [L]
+</IfModule>
+
+# Impede o mod_dir de redirecionar /rota para /rota/ por causa do diretório
+# de payloads RSC que o Next cria ao lado do .html. Sem isto, o redirect
+# acontece antes do rewrite acima e a página vira 403.
+<IfModule mod_dir.c>
+  DirectorySlash Off
+</IfModule>
+
+# Página de erro gerada pelo Next no export.
+ErrorDocument 404 /404.html
+
+# Bloqueia listagem de diretórios.
+Options -Indexes

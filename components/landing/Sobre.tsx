@@ -1,3 +1,5 @@
+import { CRO, NOME_PROFISSIONAL } from './dados-clinica'
+
 export default function Sobre() {
   return (
     <section
@@ -25,8 +27,10 @@ export default function Sobre() {
             }}
           >
             <img
-              src="/images/flavia_2.jpeg"
+              src="/images/flavia_2.webp"
               alt="Dra. Flávia Jardim - Especialista em Dentística e Estética Dental"
+              loading="lazy"
+              decoding="async"
               style={{
                 width: '100%',
                 height: '100%',
@@ -68,9 +72,9 @@ export default function Sobre() {
                 style={{ width: 8, height: 8, borderRadius: '50%', background: 'var(--rose)', flexShrink: 0 }}
               />
               <p style={{ fontSize: '.78rem', color: 'rgba(255,255,255,.65)', lineHeight: 1.5 }}>
-                <strong style={{ color: 'var(--white)' }}>Dra. Flávia Jardim</strong>
+                <strong style={{ color: 'var(--white)' }}>{NOME_PROFISSIONAL}</strong>
                 <br />
-                CRO-SP · Especialista em Dentística e Estética Dental
+                {CRO && `${CRO} · `}Especialista em Dentística e Estética Dental
               </p>
             </div>
           </div>

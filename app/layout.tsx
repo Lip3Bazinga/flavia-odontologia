@@ -1,5 +1,6 @@
 import type { Metadata, Viewport } from 'next'
 import { Cormorant_Garamond, Raleway } from 'next/font/google'
+import { Analytics, AnalyticsNoscript } from '@/components/Analytics'
 import './globals.css'
 
 const cormorant = Cormorant_Garamond({
@@ -16,7 +17,7 @@ const raleway = Raleway({
 })
 
 const siteUrl = 'https://flaviajardim.com.br'
-const ogImage = '/images/og-image.jpg' // TODO: gerar imagem 1200x630 em public/images/og-image.jpg
+const ogImage = '/images/og-image.jpg' // 1200x630 — mantido em JPEG por causa dos scrapers de link
 
 export const metadata: Metadata = {
   metadataBase: new URL(siteUrl),
@@ -87,7 +88,9 @@ export default function RootLayout({
   return (
     <html lang="pt-BR" className={`${cormorant.variable} ${raleway.variable} bg-[#FFFFFF]`}>
       <body className="font-sans antialiased text-[#1C1C1C] overflow-x-hidden">
+        <AnalyticsNoscript />
         {children}
+        <Analytics />
       </body>
     </html>
   )

@@ -68,7 +68,7 @@ export default function Tratamento() {
 
         {/* Steps grid */}
         <div
-          className="reveal d1"
+          className="reveal d1 steps-grid"
           style={{
             display: 'grid',
             gridTemplateColumns: 'repeat(2, 1fr)',

@@ -1,29 +1,29 @@
 'use client'
 
 const tall = {
-  image: '/images/local_5.jpeg',
+  image: '/images/local_5.webp',
   title: 'Tecnologia &amp; <em>cuidado</em>',
   text: 'Cadeiras ergonômicas, telas de monitoramento e equipamentos de última geração para diagnósticos precisos e tratamentos ágeis.',
 }
 
 const grid = [
   {
-    image: '/images/local_1.jpeg',
+    image: '/images/local_1.webp',
     title: 'Acolhimento desde a <em>entrada</em>',
     text: 'Ambiente pensado para que você se sinta à vontade antes mesmo de começar o atendimento. Iluminação suave, aromas e música ambiente.',
   },
   {
-    image: '/images/local_2.jpeg',
+    image: '/images/local_2.webp',
     title: 'Conforto para sua <em>espera</em>',
     text: 'Espaço reservado e tranquilo para seu descanso, com privacidade e todo o conforto que você merece.',
   },
   {
-    image: '/images/local_3.jpeg',
+    image: '/images/local_3.webp',
     title: 'Recepção com <em>identidade</em>',
     text: 'Fácil acesso, estacionamento conveniado e atendimento com hora marcada para que sua visita seja sempre prática e agradável.',
   },
   {
-    image: '/images/local_4.jpeg',
+    image: '/images/local_4.webp',
     title: 'Ambientes pensados para <em>você</em>',
     text: 'Scanner 3D intraoral e software de simulação para você visualizar o resultado final antes de qualquer procedimento começar.',
   },
@@ -59,6 +59,8 @@ function Tile({
       <img
         src={image}
         alt={title}
+        loading="lazy"
+        decoding="async"
         style={{
           width: '100%',
           height: '100%',
@@ -194,9 +196,10 @@ export default function Consultorio() {
         <div className="estacionamento-card reveal d1">
           <div className="estacionamento-media">
             <img
-              src="/images/local_6.jpeg"
+              src="/images/local_6.webp"
               alt="Estacionamento próprio, coberto e com acesso privativo à clínica"
               loading="lazy"
+              decoding="async"
             />
           </div>
           <div className="estacionamento-body">
@@ -283,6 +286,11 @@ export default function Consultorio() {
       </div>
 
       <style>{`
+        #consultorio {
+          /* Proporção dos cards no mobile: a mesma do card do estacionamento
+             (local_6.webp é 896x1195 ≈ 3/4). Mudou a foto de lá? Ajuste aqui. */
+          --proporcao-mobile: 3 / 4;
+        }
         .consultorio-mosaic {
           display: grid;
           gap: 16px;
@@ -384,26 +392,31 @@ export default function Consultorio() {
             grid-template-columns: 1fr;
           }
           .estacionamento-media {
-            min-height: 260px;
+            aspect-ratio: var(--proporcao-mobile);
+            min-height: 0;
           }
           .estacionamento-media img {
             position: relative;
           }
+          /* Uma coluna: nesta proporção, dois cards por linha deixariam ~165px
+             de largura — estreito demais para o título e o texto do overlay. */
           .consultorio-mosaic {
-            grid-template-columns: 1fr 1fr;
+            grid-template-columns: 1fr;
             grid-template-rows: auto;
             grid-template-areas:
-              'tall tall'
-              'g1 g2'
-              'g3 g4';
+              'tall'
+              'g1'
+              'g2'
+              'g3'
+              'g4';
             height: auto;
             min-height: 0;
           }
+          /* As fotos do mosaico têm proporções diferentes entre si (local_1..4
+             são paisagem, local_5 é retrato). Sem isto cada card assume a
+             altura natural da sua imagem e a seção fica desalinhada. */
           .consultorio-mosaic > .consultorio-tile {
-            min-height: 240px;
-          }
-          .consultorio-mosaic > .consultorio-tile:first-child {
-            min-height: 480px;
+            aspect-ratio: var(--proporcao-mobile);
           }
         }
       `}</style>

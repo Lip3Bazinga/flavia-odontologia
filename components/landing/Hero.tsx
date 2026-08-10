@@ -206,8 +206,11 @@ export default function Hero() {
       >
         {/* Background image */}
         <img
-          src="/images/flavia.jpg"
+          src="/images/flavia.webp"
           alt="Dra. Flávia Jardim, especialista em lentes de resina e estética dental em Franca/SP"
+          // Imagem do hero: é o LCP da página, precisa carregar imediatamente.
+          fetchPriority="high"
+          decoding="async"
           style={{
             position: 'absolute',
             inset: 0,

@@ -10,8 +10,8 @@ const cases = [
     name: 'Lentes de Resina',
     desc: 'Mais do que transformar dentes, transformamos a confiança de sorrir. Resultados naturais, personalizados e pensados para valorizar a beleza única de cada paciente.',
     stats: [{ n: '2', l: 'Sessões' }, { n: '8+', l: 'Anos de duração' }, { n: '100%', l: 'Natural' }],
-    beforeImg: '/images/antes_1.jpeg',
-    afterImg: '/images/depois_1.jpeg',
+    beforeImg: '/images/antes_1.webp',
+    afterImg: '/images/depois_1.webp',
   },
   {
     num: '02',
@@ -19,8 +19,8 @@ const cases = [
     name: 'Lentes de Resina',
     desc: 'Cada sorriso conta uma história. Nosso objetivo é realçar sua melhor versão com harmonia, naturalidade e excelência nos detalhes.',
     stats: [{ n: '2', l: 'Sessões' }, { n: '8+', l: 'Anos de duração' }, { n: '100%', l: 'Natural' }],
-    beforeImg: '/images/antes_2.jpeg',
-    afterImg: '/images/depois_2.jpeg',
+    beforeImg: '/images/antes_2.webp',
+    afterImg: '/images/depois_2.webp',
   },
   {
     num: '03',
@@ -28,8 +28,8 @@ const cases = [
     name: 'Lentes de Resina',
     desc: 'Antes e depois que vão além da estética: sorrisos planejados para unir beleza, função e naturalidade em cada detalhe.',
     stats: [{ n: '2', l: 'Sessões' }, { n: '8+', l: 'Anos de duração' }, { n: '100%', l: 'Natural' }],
-    beforeImg: '/images/antes_3.jpeg',
-    afterImg: '/images/depois_3.jpeg',
+    beforeImg: '/images/antes_3.webp',
+    afterImg: '/images/depois_3.webp',
   },
 ]
 
@@ -97,6 +97,8 @@ function BeforeAfterSlider({ beforeImg, afterImg }: { beforeImg: string; afterIm
         <img
           src={afterImg}
           alt="Depois do tratamento"
+          loading="lazy"
+          decoding="async"
           style={{
             width: '100%',
             height: '100%',
@@ -118,6 +120,8 @@ function BeforeAfterSlider({ beforeImg, afterImg }: { beforeImg: string; afterIm
         <img
           src={beforeImg}
           alt="Antes do tratamento"
+          loading="lazy"
+          decoding="async"
           style={{
             width: '100%',
             height: '100%',

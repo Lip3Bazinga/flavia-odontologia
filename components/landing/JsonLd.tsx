@@ -1,6 +1,6 @@
 // Dados estruturados (JSON-LD) para busca local — Schema.org "Dentist".
 // É o que permite ao Google exibir o card rico da clínica (endereço, telefone,
-// horário e estrelas) nos resultados. Preencha os campos marcados com TODO.
+// horário e estrelas) nos resultados.
 
 const siteUrl = 'https://flaviajardim.com.br'
 
@@ -13,7 +13,7 @@ const jsonLd = {
     'Especialista em lentes de resina e estética dental há mais de 20 anos em Franca/SP.',
   url: siteUrl,
   telephone: '+5516994046647',
-  image: `${siteUrl}/images/og-image.jpg`, // TODO: confirmar imagem
+  image: `${siteUrl}/images/og-image.jpg`,
   priceRange: '$$',
   currenciesAccepted: 'BRL',
   address: {
